@@ -130,8 +130,7 @@ and apply it to this page. The two attributes that matter are:
   [It is possible to write CSS directly inside an HTML tag using the
    `style` attribute — for example `<p style="color: red;">`. Do not do
    this. It mixes structure and appearance, makes your code hard to
-   maintain, and is explicitly penalised in the project rubric. All CSS
-   belongs in `style.css`.],
+   maintain. All CSS belongs in `style.css`.],
 )
 
 = The Anatomy of a CSS Rule
