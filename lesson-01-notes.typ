@@ -5,54 +5,44 @@
 #let course          = "Computer Science"
 #let level           = "High School"
 #let term            = "[Term / Year]"
-#let lesson-num      = "1"
 #let lesson-title    = "Setup & Software Installation"
 #let lesson-subtitle = "Getting your tools ready"
 
-// ── Palette ───────────────────────────────────────────────────────────────────
-#let primary = rgb("#111111")
-#let accent  = rgb("#2E6DA4")   // steel blue — used sparingly
-#let light   = rgb("#F5F5F5")
-#let warn    = rgb("#555555")
-#let muted   = rgb("#999999")
-
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Page setup ────────────────────────────────────────────────────────────────
 #set page(
   paper: "a4",
   margin: (top: 2.8cm, bottom: 2.5cm, left: 2.5cm, right: 2.5cm),
   header: context {
-    set text(size: 9pt, fill: muted)
+    set text(size: 9pt, fill: rgb("#999999"))
     grid(
       columns: (1fr, 1fr),
       align(left,  [#lesson-title]),
       align(right, [#course — #level]),
     )
-    line(length: 100%, stroke: 0.4pt + muted)
+    line(length: 100%, stroke: 0.4pt + rgb("#999999"))
   },
   footer: context {
-    set text(size: 9pt, fill: muted)
+    set text(size: 9pt, fill: rgb("#999999"))
     align(center, counter(page).display("1"))
   },
 )
 
-// ── Typography ────────────────────────────────────────────────────────────────
-#set text(font: "New Computer Modern", size: 11pt, lang: "en")
-#set par(justify: true, leading: 0.75em)
+// ── Heading styles ────────────────────────────────────────────────────────────
 #set heading(numbering: "1.1")
 
 #show heading.where(level: 1): it => block(breakable: false)[
   #v(1.2em)
-  #text(size: 11pt, weight: "bold", fill: primary,
+  #text(size: 11pt, weight: "bold", fill: rgb("#111111"),
     upper(numbering("1", ..counter(heading).at(it.location())) + "  ") + it.body
   )
   #v(0.15em)
-  #line(length: 100%, stroke: 1pt + accent)
+  #line(length: 100%, stroke: 1pt + rgb("#2E6DA4"))
   #v(0.5em)
 ]
 
 #show heading.where(level: 2): it => {
   v(0.8em)
-  text(size: 11pt, weight: "bold", fill: primary,
+  text(size: 11pt, weight: "bold", fill: rgb("#111111"),
     numbering("1.1", ..counter(heading).at(it.location())) + "  "
   )
   it.body
@@ -61,108 +51,17 @@
 
 #show heading.where(level: 3): it => {
   v(0.5em)
-  text(size: 10pt, weight: "bold", fill: muted,
+  text(size: 10pt, weight: "bold", fill: rgb("#999999"),
     numbering("1.1.1", ..counter(heading).at(it.location())) + "  "
   )
-  text(size: 10pt, weight: "bold", fill: muted, it.body)
+  text(size: 10pt, weight: "bold", fill: rgb("#999999"), it.body)
   v(0.2em)
 }
 
-#show raw.where(block: false): it => {
-  box(
-    fill: light,
-    inset: (x: 3pt, y: 1pt),
-    radius: 2pt,
-    text(size: 10pt, it),
-  )
-}
+// ── Import shared styles and components ───────────────────────────────────────
+#import "cs-style.typ": *
 
-#show raw.where(block: true): it => {
-  block(
-    fill: rgb("#F0F0F0"),
-    width: 100%,
-    inset: 12pt,
-    radius: 2pt,
-    text(size: 10pt, fill: primary, it),
-  )
-}
-
-// ── Components ────────────────────────────────────────────────────────────────
-#let infobox(title, body) = block(
-  fill: light,
-  inset: (x: 14pt, y: 10pt),
-  width: 100%,
-  radius: 2pt,
-  [
-    #text(weight: "bold", fill: accent, title)
-    #v(0.3em)
-    #body
-  ],
-)
-
-#let warnbox(title, body) = block(
-  fill: light,
-  inset: (x: 14pt, y: 10pt),
-  width: 100%,
-  radius: 2pt,
-  [
-    #text(weight: "bold", fill: warn, title)
-    #v(0.3em)
-    #body
-  ],
-)
-
-#let steps(..items) = {
-  let n = 0
-  for item in items.pos() {
-    n = n + 1
-    grid(
-      columns: (1.6em, 1fr),
-      column-gutter: 8pt,
-      align(top + right,
-        box(
-          fill: accent,
-          inset: (x: 5pt, y: 2pt),
-          radius: 2pt,
-          text(size: 9pt, weight: "bold", fill: white, str(n)),
-        )
-      ),
-      align(top + left, item),
-    )
-    v(0.4em)
-  }
-}
-
-#let goals(..items) = {
-  block(
-    width: 100%,
-    inset: (x: 14pt, y: 10pt),
-    fill: light,
-    radius: 2pt,
-    [
-      #text(weight: "bold", fill: accent)[Learning Goals]
-      #v(0.3em)
-      #list(..items.pos())
-    ]
-  )
-  v(0.5em)
-}
-
-#let checklist(..items) = {
-  for item in items.pos() {
-    grid(
-      columns: (1.4em, 1fr),
-      column-gutter: 6pt,
-      align(top + left,
-        box(width: 0.9em, height: 0.9em, stroke: 0.8pt + muted, radius: 1pt)
-      ),
-      align(top + left, item),
-    )
-    v(0.35em)
-  }
-}
-
-
+// ── Title block ───────────────────────────────────────────────────────────────
 #{
   text(size: 18pt, weight: "bold", fill: primary)[#lesson-title]
   v(0.1em)
@@ -226,8 +125,14 @@ VS Code is a free text editor made by Microsoft. It runs on Windows and macOS.
   [Open VS Code. You should see a welcome screen with some tips and
    recent files. You can close this tab.],
 )
-
 ]
+
+#warnbox(
+  "⚠ Blocked by the school network?",
+  [If the download does not start or is blocked, let the teacher know.
+   An offline installer is available. Do not try to work around the
+   network block yourself.],
+)
 
 == A quick tour of the interface
 
@@ -276,7 +181,6 @@ Every file on your computer lives inside a folder. That folder lives inside
 another folder. That folder lives inside another, and so on, all the way
 up to the very top of your storage drive. This structure is called the
 *file system*, and it looks like a tree with many branches.
-
 ]
 
 On *Windows*, the top of the tree is usually your C: drive:
@@ -333,7 +237,6 @@ Windows computers that are signed into a Microsoft account often have
   [`C:\Users\you\Documents`],        [`C:\Users\you\OneDrive\Documents`],
   [`C:\Users\you\Desktop`],          [`C:\Users\you\OneDrive\Desktop`],
 )
-
 ]
 
 Both appear as "Documents" and "Desktop" in File Explorer. They look
@@ -386,8 +289,6 @@ Documents/
    clear name. Never save course files to the Desktop or Downloads folder
    — those are temporary locations, not permanent ones.],
 )
-
-
 
 = Installing Git
 
