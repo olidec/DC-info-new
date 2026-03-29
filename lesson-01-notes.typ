@@ -3,8 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 #let course          = "Computer Science"
-#let level           = "High School"
-#let term            = "[Term / Year]"
+#let level           = "Gymnasium Muttenz"
+#let term            = "2026-27"
 #let lesson-title    = "Setup & Software Installation"
 #let lesson-subtitle = "Getting your tools ready"
 
