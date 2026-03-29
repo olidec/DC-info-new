@@ -65,7 +65,7 @@
   ],
 )
 
-// Warning box — dark grey title, light background
+// Warning box — dark gray title, light background
 #let warnbox(title, body) = block(
   fill: light,
   inset: (x: 14pt, y: 10pt),
@@ -78,7 +78,7 @@
   ],
 )
 
-// Numbered steps — accent-coloured badge, plain text beside it
+// Numbered steps — accent-colored badge, plain text beside it
 #let steps(..items) = {
   let n = 0
   for item in items.pos() {

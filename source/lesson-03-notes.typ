@@ -78,7 +78,7 @@
 #goals(
   [Understand what HTML is and how browsers use it.],
   [Write a valid HTML document structure from memory.],
-  [Use semantic layout elements to organise a page.],
+  [Use semantic layout elements to organize a page.],
   [Add text content, links, and images to a webpage.],
   [Build the HTML structure of your personal page in the cs-intro repo.],
 )
@@ -184,7 +184,7 @@ element must be fully closed before the outer element closes:
 ```
 
 Correct nesting is important. Browsers are forgiving about some mistakes,
-but badly nested HTML can cause unexpected behaviour.
+but badly nested HTML can cause unexpected behavior.
 
 = A Valid HTML Document
 
@@ -239,7 +239,7 @@ Let us look at each part:
   [Open `index.html` in your cs-intro repository. You will see that this
    structure is already there. Your job from now on is to fill in the
    `<body>` with real content — the skeleton is provided so you can focus
-   on learning HTML rather than memorising boilerplate.],
+   on learning HTML rather than memorizing boilerplate.],
 )
 
 = Structuring a Page with div and span
@@ -263,7 +263,7 @@ belong together:
 </div>
 ```
 
-On its own, a `<div>` is invisible — it has no colour, no border, no spacing.
+On its own, a `<div>` is invisible — it has no color, no border, no spacing.
 Its purpose is to give CSS something to grab onto. You will use it constantly
 once we start styling in Lesson 4.
 
@@ -273,11 +273,11 @@ once we start styling in Lesson 4.
 breaking it. Use it to mark up a word or phrase within a paragraph:
 
 ```html
-<p>My favourite colour is <span>deep blue</span>.</p>
+<p>My favorite color is <span>deep blue</span>.</p>
 ```
 
 Again, by itself `<span>` does nothing visible. Its value comes when CSS
-applies a colour, font, or other style to just that piece of text.
+applies a color, font, or other style to just that piece of text.
 
 #infobox(
   "Block vs inline",
