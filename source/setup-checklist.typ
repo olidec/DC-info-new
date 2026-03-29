@@ -44,7 +44,7 @@
 }
 
 // ── Import shared styles and components ───────────────────────────────────────
-#import "cs-style.typ": *
+#import "../cs-style.typ": *
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONTENT

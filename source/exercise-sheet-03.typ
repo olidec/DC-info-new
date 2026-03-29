@@ -44,7 +44,7 @@
 }
 
 // ── Import shared styles and components ───────────────────────────────────────
-#import "cs-style.typ": *
+#import "../cs-style.typ": *
 
 // ── Extra component: fill-in-the-blank line ───────────────────────────────────
 // Draws a fixed-width underline for written answers inside code blocks
