@@ -75,6 +75,10 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+#tier-legend
+
+#v(0.5em)
+
 #goals(
   [Understand what CSS is and how it connects to HTML.],
   [Write CSS rules using element, class, and ID selectors.],
@@ -84,7 +88,7 @@
   [Style the about-me page from Lesson 3.],
 )
 
-= What is CSS?
+= What is CSS? #h(1fr) #tier-core
 
 In Lesson 3 you built the *structure* of a webpage using HTML. The page
 works, but it probably looks quite plain — black text on a white
@@ -105,7 +109,7 @@ answers the question "what does it look like?"
    and maintain.],
 )
 
-= Connecting CSS to HTML
+= Connecting CSS to HTML #h(1fr) #tier-core
 
 CSS lives in a separate file — in your cs-intro repository, that file is
 `style.css`. It was already linked to your `index.html` in the skeleton,
@@ -133,7 +137,7 @@ and apply it to this page. The two attributes that matter are:
    maintain. All CSS belongs in `style.css`.],
 )
 
-= The Anatomy of a CSS Rule
+= The Anatomy of a CSS Rule #h(1fr) #tier-core
 
 A CSS file is made up of *rules*. Each rule has two parts: a *selector*
 that says which HTML elements to target, and a *declaration block* that
@@ -152,7 +156,7 @@ p {
   and a semicolon.
 - You can have as many declarations as you like inside one rule.
 
-= Selectors
+= Selectors #h(1fr) #tier-core
 
 The selector determines which elements a rule applies to. There are
 three kinds you need to know now.
@@ -227,7 +231,7 @@ work as anchor link targets).
    When in doubt, use a class.],
 )
 
-= Colors and Backgrounds
+= Colors and Backgrounds #h(1fr) #tier-core
 
 == Specifying colors
 
@@ -277,7 +281,7 @@ h1 {
 `color` sets the text color. `background-color` sets the background
 behind an element. Both accept any CSS color format.
 
-= Typography
+= Typography #h(1fr) #tier-core
 
 Typography — the choice and treatment of text — has a large impact on
 how a page feels. CSS gives you fine control over it.
@@ -345,7 +349,7 @@ without a unit (like `1.6`) is a multiplier of the font size — `1.6`
 means 1.6 times the font size. Values between 1.4 and 1.8 are generally
 comfortable for body text.
 
-= The Box Model
+= The Box Model #h(1fr) #tier-core
 
 Every HTML element is treated as a rectangular box. The *box model*
 describes the layers of space around the content inside that box:
@@ -463,7 +467,7 @@ you can specify one to four values:
    are positioned where they are.],
 )
 
-= Placing an Image Next to Text
+= Placing an Image Next to Text #h(1fr) #tier-extension
 
 One of the first layout questions students ask is: "how do I put my
 image next to the text instead of above or below it?" By default, images
@@ -534,7 +538,7 @@ above it, restoring the normal document flow.
    an image next to text.],
 )
 
-= Styling Your Page
+= Styling Your Page #h(1fr) #tier-core
 
 Open `style.css` in your cs-intro repository and work through the
 following. Commit after each significant change so your git history

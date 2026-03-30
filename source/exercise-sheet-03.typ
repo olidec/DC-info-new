@@ -99,7 +99,11 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
-= Part 1 — Multiple Choice
+#tier-legend
+
+#v(0.5em)
+
+= Part 1 — Multiple Choice #h(1fr) #tier-core
 
 #exercise(title: "Tag syntax")[
   Circle the letter of the correct answer for each question.
@@ -145,7 +149,7 @@
 ]
 
 #block(breakable: false)[
-= Part 2 — Code to Output
+= Part 2 — Code to Output #h(1fr) #tier-core
 
 For each HTML snippet on the left, describe in your own words what a browser
 would display. Write your answer in the box on the right.
@@ -200,7 +204,7 @@ would display. Write your answer in the box on the right.
 )
 
 #block(breakable: false)[
-= Part 3 — Which Code Gives This Output?
+= Part 3 — Which Code Gives This Output? #h(1fr) #tier-core
 
 Each question shows a desired result. Circle the letter of the HTML snippet
 that would produce it.
@@ -246,7 +250,7 @@ Note: for question 3, both C and D are technically valid HTML. Which one is
 #answer-space(lines: 2)
 
 #block(breakable: false)[
-= Part 4 — Fill in the Blank
+= Part 4 — Fill in the Blank #h(1fr) #tier-extension
 
 Complete each HTML snippet by filling in the missing parts.
 
@@ -307,7 +311,7 @@ Complete each HTML snippet by filling in the missing parts.
 )
 
 #block(breakable: false)[
-= Part 5 — Spot the Error
+= Part 5 — Spot the Error #h(1fr) #tier-extension
 
 Each snippet below contains one mistake. Find it, circle it, and write
 a correction on the line below.

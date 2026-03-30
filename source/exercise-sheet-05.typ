@@ -96,7 +96,11 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
-= Part 1 — Multiple Choice
+#tier-legend
+
+#v(0.5em)
+
+= Part 1 — Multiple Choice #h(1fr) #tier-core
 
 #exercise(title: "Concepts and syntax")[
   Circle the letter of the correct answer.
@@ -151,7 +155,7 @@
 ]
 
 #block(breakable: false)[
-= Part 2 — Code to Output
+= Part 2 — Code to Output #h(1fr) #tier-core
 
 For each JavaScript snippet, describe in your own words what would happen
 on the page when this code runs. Assume the HTML contains the elements referenced.
@@ -209,7 +213,7 @@ card.classList.toggle("hidden");
 )
 
 #block(breakable: false)[
-= Part 3 — Fill in the Blank
+= Part 3 — Fill in the Blank #h(1fr) #tier-extension
 
 Complete each snippet by filling in the missing parts.
 
@@ -248,7 +252,7 @@ Complete each snippet by filling in the missing parts.
 ]
 
 #block(breakable: false)[
-= Part 4 — Spot the Error
+= Part 4 — Spot the Error #h(1fr) #tier-extension
 
 Each snippet contains one mistake. Circle it and write the correction on the line below.
 
@@ -296,7 +300,7 @@ title.textcontent = "New title";
 #answer-space(lines: 1)
 
 #block(breakable: false)[
-= Part 5 — Build It
+= Part 5 — Build It #h(1fr) #tier-challenge
 
 This part is completed on your computer in your cs-intro repository.
 

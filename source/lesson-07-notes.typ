@@ -75,6 +75,10 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+#tier-legend
+
+#v(0.5em)
+
 #goals(
   [Build a contact form using HTML form elements.],
   [Display structured data in an HTML table.],
@@ -84,7 +88,7 @@
   [Add transitions and simple animations to page elements.],
 )
 
-= HTML Forms
+= HTML Forms #h(1fr) #tier-extension
 
 A form is a section of a page that collects input from the user. You have
 filled in countless forms online — login pages, search boxes, contact forms.
@@ -179,7 +183,7 @@ a JavaScript function rather than submitting the form to a server.
    mistakes on the web — and one of the easiest to avoid.],
 )
 
-= HTML Tables
+= HTML Tables #h(1fr) #tier-extension
 
 Tables are for displaying structured, tabular data — think schedules,
 comparison charts, or statistics. They are not for page layout (that is
@@ -259,7 +263,7 @@ tbody tr:nth-child(even) {
 between adjacent cells by default. `nth-child(even)` is a pseudo-class
 that targets every even row — useful for alternating row colors.
 
-= Flexbox Layout
+= Flexbox Layout #h(1fr) #tier-core
 
 In Lesson 4 you used `float` to place an image next to text. Float works
 for that specific case, but it was never designed as a full layout system.
@@ -351,7 +355,7 @@ links sit in a row with a 24px gap between them.
    "Complete Guide to Flexbox" is another widely-used resource.],
 )
 
-= CSS Custom Properties
+= CSS Custom Properties #h(1fr) #tier-core
 
 CSS custom properties — often called *CSS variables* — let you define a
 value once and reuse it throughout your stylesheet. This makes it much
@@ -397,7 +401,7 @@ This is especially powerful for color schemes.
    currently *is*.],
 )
 
-= Pseudo-classes
+= Pseudo-classes #h(1fr) #tier-core
 
 A *pseudo-class* is a keyword added to a selector that targets an element
 in a particular *state* — hovered, focused, visited, and so on.
@@ -445,7 +449,7 @@ Never remove the focus outline entirely (`outline: none`) without
 replacing it with something else — it is essential for keyboard users
 and accessibility.
 
-= CSS Transitions and Animation
+= CSS Transitions and Animation #h(1fr) #tier-extension
 
 CSS can animate changes between states smoothly. The simplest way is
 with `transition`, which tells the browser to animate a property change
@@ -524,7 +528,7 @@ stays in its final state after the animation ends.
    it is probably too much.],
 )
 
-= Extending Your Page
+= Extending Your Page #h(1fr) #tier-core
 
 Open your cs-intro repository and apply what you have learned today.
 Commit after each significant addition.

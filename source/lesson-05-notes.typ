@@ -75,6 +75,10 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+#tier-legend
+
+#v(0.5em)
+
 #goals(
   [Understand what JavaScript is and how it connects to HTML.],
   [Declare and use variables with `let` and `const`.],
@@ -84,7 +88,7 @@
   [Build a working click counter in your cs-intro repository.],
 )
 
-= What is JavaScript?
+= What is JavaScript? #h(1fr) #tier-core
 
 HTML gives a page its structure. CSS gives it its appearance. JavaScript
 gives it *behavior* — the ability to respond to what the user does and
@@ -102,7 +106,7 @@ you need to make a simple interactive page. We will go deeper in Lesson 8.
    JavaScript it finds. The result is a live, interactive page.],
 )
 
-= Connecting JavaScript to HTML
+= Connecting JavaScript to HTML #h(1fr) #tier-core
 
 Like CSS, JavaScript lives in a separate file. In your cs-intro repository
 that file is `script.js`. It is already linked to your `index.html` in
@@ -126,7 +130,7 @@ it will not be able to find the elements it is looking for.
    inline styles: it mixes concerns and makes code harder to maintain.],
 )
 
-= Variables
+= Variables #h(1fr) #tier-core
 
 A variable is a named container for a value. In JavaScript you declare
 variables using `let` or `const`:
@@ -165,7 +169,7 @@ JavaScript variables can hold different kinds of values:
 You do not need to declare the type — JavaScript figures it out from
 the value you assign.
 
-= The DOM
+= The DOM #h(1fr) #tier-core
 
 The *DOM* stands for *Document Object Model*. It is the browser's
 internal representation of your HTML page as a tree of objects. When
@@ -204,7 +208,7 @@ For this to work, the element must have a matching `id` in your HTML:
    name is self-explanatory.],
 )
 
-= Changing Content and Styles
+= Changing Content and Styles #h(1fr) #tier-core
 
 Once you have a reference to an element, you can change it.
 
@@ -269,7 +273,7 @@ box.classList.toggle("highlighted");  // adds if absent, removes if present
 `classList.toggle` is particularly useful for on/off interactions — a
 single line handles both directions.
 
-= Responding to Clicks with onclick
+= Responding to Clicks with onclick #h(1fr) #tier-core
 
 To make something happen when a user clicks a button, you connect a
 JavaScript *function* to the button's `onclick` attribute.
@@ -300,7 +304,7 @@ The key parts:
   are required.
 - The function body (inside `{ }`) contains the code that runs.
 
-= A Worked Example: Click Counter
+= A Worked Example: Click Counter #h(1fr) #tier-core
 
 Let us build a counter that increments each time a button is clicked.
 This brings together everything from this lesson.
@@ -377,7 +381,7 @@ will appear there in red.
    runs — useful for understanding what your code is doing.],
 )
 
-= Adding Your Counter to Your Page
+= Adding Your Counter to Your Page #h(1fr) #tier-challenge
 
 Now adapt the counter to fit naturally into your about-me page. A few
 ideas:

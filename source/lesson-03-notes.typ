@@ -75,6 +75,10 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+#tier-legend
+
+#v(0.5em)
+
 #goals(
   [Understand what HTML is and how browsers use it.],
   [Write a valid HTML document structure from memory.],
@@ -83,7 +87,7 @@
   [Build the HTML structure of your personal page in the cs-intro repo.],
 )
 
-= What is HTML?
+= What is HTML? #h(1fr) #tier-core
 
 Every webpage you have ever seen starts as a plain text file. The browser
 reads that file and turns it into the visual page you see on screen. The
@@ -102,7 +106,7 @@ important and we will return to it in Lesson 4.
    paragraph." The browser decides how to display it.],
 )
 
-= The Anatomy of an HTML Tag
+= The Anatomy of an HTML Tag #h(1fr) #tier-core
 
 Everything in HTML is made of *tags*. A tag is a keyword wrapped in angle
 brackets. Most tags come in pairs: an *opening tag* and a *closing tag*,
@@ -186,7 +190,7 @@ element must be fully closed before the outer element closes:
 Correct nesting is important. Browsers are forgiving about some mistakes,
 but badly nested HTML can cause unexpected behavior.
 
-= A Valid HTML Document
+= A Valid HTML Document #h(1fr) #tier-core
 
 A valid HTML document always has the same basic structure. Here is the
 minimum a browser expects:
@@ -242,7 +246,7 @@ Let us look at each part:
    on learning HTML rather than memorizing boilerplate.],
 )
 
-= Structuring a Page with div and span
+= Structuring a Page with div and span #h(1fr) #tier-extension
 
 HTML has two general-purpose container elements that you will see everywhere:
 `<div>` and `<span>`. Unlike semantic elements such as `<header>` or
@@ -290,7 +294,7 @@ applies a color, font, or other style to just that piece of text.
 
 
 
-= Text Elements
+= Text Elements #h(1fr) #tier-core
 
 Inside your sections, you will use text elements to mark up your content.
 
@@ -341,7 +345,7 @@ lists. Each item is wrapped in `<li>`:
 </ol>
 ```
 
-= Links and Images
+= Links and Images #h(1fr) #tier-core
 
 == Links
 
@@ -394,7 +398,7 @@ reference it with a relative path:
 <img src="images/photo.jpg" alt="Description">
 ```
 
-= Building Your Page
+= Building Your Page #h(1fr) #tier-core
 
 You now have everything you need to build the HTML structure of your
 personal page. Open `index.html` in your cs-intro repository and work

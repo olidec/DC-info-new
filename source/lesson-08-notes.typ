@@ -75,6 +75,10 @@
 // CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+#tier-legend
+
+#v(0.5em)
+
 #goals(
   [Write functions that accept parameters and return values.],
   [Use `if`/`else` to make decisions in code.],
@@ -82,7 +86,7 @@
   [Build a simple interactive quiz using all three concepts.],
 )
 
-= Functions with Parameters and Return Values
+= Functions with Parameters and Return Values #h(1fr) #tier-core
 
 In Lesson 5 you wrote functions that took no input and changed the page
 directly. Functions become much more powerful when they can accept
@@ -152,7 +156,7 @@ the function.
    the DOM. This keeps each function focused on a single job.],
 )
 
-= Conditionals: if / else
+= Conditionals: if / else #h(1fr) #tier-core
 
 A conditional runs different code depending on whether a condition is
 true or false. You have already seen a simple version of this in the
@@ -237,7 +241,7 @@ function grade(score) {
 The conditions are checked in order. The first one that is true runs,
 and the rest are skipped.
 
-= Loops
+= Loops #h(1fr) #tier-extension
 
 A loop repeats a block of code multiple times. Instead of writing the
 same code ten times, you write it once and tell JavaScript how many
@@ -298,7 +302,7 @@ while (attempts < 3) {
    check your code.],
 )
 
-= A Worked Example: Simple Quiz
+= A Worked Example: Simple Quiz #h(1fr) #tier-extension
 
 We will now build a three-question quiz that uses everything from this
 lesson. The complete code is shown below, followed by a line-by-line
@@ -426,7 +430,7 @@ loadQuestion();
    both constantly as you go further.],
 )
 
-= Adapting the Quiz for Your Project
+= Adapting the Quiz for Your Project #h(1fr) #tier-challenge
 
 The quiz above is a starting point, not a finished product. For your
 project, adapt it to fit your page:

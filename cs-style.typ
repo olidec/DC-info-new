@@ -65,7 +65,7 @@
   ],
 )
 
-// Warning box — dark gray title, light background
+// Warning box — dark grey title, light background
 #let warnbox(title, body) = block(
   fill: light,
   inset: (x: 14pt, y: 10pt),
@@ -190,3 +190,51 @@
   radius: 2pt,
   [#text(weight: "bold", fill: primary, title) \ #v(0.2em) #body],
 )
+
+// ── Tier badges ───────────────────────────────────────────────────────────────
+// Used in lesson notes and exercise sheets to indicate difficulty level.
+// ★  Core       — essential for everyone
+// ◆  Extension  — aim for this if you finish Core
+// ▲  Challenge  — open-ended stretch for fast finishers
+
+#let tier-core = box(
+  fill: rgb("#2E6DA4"),
+  inset: (x: 6pt, y: 2pt),
+  radius: 2pt,
+  text(size: 8pt, weight: "bold", fill: white)[★ Core]
+)
+
+#let tier-extension = box(
+  fill: rgb("#5A8A3C"),
+  inset: (x: 6pt, y: 2pt),
+  radius: 2pt,
+  text(size: 8pt, weight: "bold", fill: white)[◆ Extension]
+)
+
+#let tier-challenge = box(
+  fill: rgb("#B05C3A"),
+  inset: (x: 6pt, y: 2pt),
+  radius: 2pt,
+  text(size: 8pt, weight: "bold", fill: white)[▲ Challenge]
+)
+
+// Legend — place at the top of each lesson/exercise sheet
+#let tier-legend = block(
+  fill: light,
+  width: 100%,
+  inset: (x: 14pt, y: 10pt),
+  radius: 2pt,
+  grid(
+    columns: (auto, auto, auto, 1fr),
+    column-gutter: 16pt,
+    align(horizon, tier-core),
+    align(horizon, tier-extension),
+    align(horizon, tier-challenge),
+    align(horizon,
+      text(size: 9pt, fill: muted)[
+        Work through sections in order. Finish *Core* before moving on.
+      ]
+    ),
+  )
+)
+
