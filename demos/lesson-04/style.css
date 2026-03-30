@@ -1,0 +1,72 @@
+/* Lesson 4 — style.css */
+/* Demonstrates: element selectors, class selectors, ID selectors,
+   colors, typography, box model (padding/margin/border), float */
+
+/* ── Element selector: applies to every p on the page ── */
+body {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #222222;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+  background-color: #fafafa;
+}
+
+h1, h2 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+  color: #1a3a5c;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 1.2em;
+  color: #1a3a5c;
+  border-bottom: 2px solid #2E6DA4;
+  padding-bottom: 4px;
+}
+
+a {
+  color: #2E6DA4;
+}
+
+/* ── Class selector ── */
+.subtitle {
+  color: #888888;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.facts {
+  background-color: #f0f4f8;
+  border-left: 4px solid #2E6DA4;
+  padding: 12px 12px 12px 32px;
+  margin: 0;
+}
+
+.note {
+  margin-top: 2em;
+  padding: 12px 16px;
+  background-color: #fffbe6;
+  border-left: 4px solid #f0c040;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* ── ID selector ── */
+#page-title {
+  letter-spacing: -0.5px;
+}
+
+/* ── Float: image beside text ── */
+.portrait {
+  float: right;
+  margin: 0 0 16px 24px;
+  border-radius: 4px;
+  width: 160px;
+}

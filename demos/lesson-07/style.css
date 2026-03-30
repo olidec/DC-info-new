@@ -1,0 +1,203 @@
+/* Lesson 7 — style.css */
+/* Demonstrates: CSS custom properties, flexbox, pseudo-classes,
+   transitions, @keyframes animation, table and form styling */
+
+/* ── CSS Custom Properties ───────────────────────────────────────────────── */
+:root {
+  --primary:    #1a3a5c;
+  --accent:     #2E6DA4;
+  --accent-dark:#1a4a7e;
+  --bg:         #f5f7fa;
+  --surface:    #ffffff;
+  --text:       #222222;
+  --muted:      #666666;
+  --border:     #cccccc;
+  --spacing:    16px;
+  --radius:     6px;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px var(--spacing);
+}
+
+h2 {
+  color: var(--primary);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 4px;
+}
+
+h3 { color: var(--accent); }
+
+/* ── Flexbox: navigation bar ─────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 32px;
+  background-color: var(--primary);
+}
+
+.logo {
+  color: white;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* Pseudo-class: hover on nav links */
+.nav-links a:hover {
+  color: white;
+}
+
+/* ── Sections ────────────────────────────────────────────────────────────── */
+section {
+  margin-bottom: 48px;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+th, td {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  background-color: var(--accent);
+  color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #edf2f7;
+}
+
+/* ── Form ────────────────────────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--spacing);
+}
+
+label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: var(--primary);
+}
+
+input, textarea {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1em;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Pseudo-class: focus on inputs */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background-color: #f0f6ff;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--accent-dark);
+}
+
+#form-feedback {
+  margin-top: 12px;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* ── Flexbox: card row ───────────────────────────────────────────────────── */
+.card-row {
+  display: flex;
+  gap: var(--spacing);
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1;
+  min-width: 180px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--spacing);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Pseudo-class + transition: hover on cards */
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ── @keyframes animation ────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-box {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 20px;
+  background-color: var(--accent);
+  color: white;
+  border-radius: var(--radius);
+  animation: fade-in 0.8s ease forwards;
+}

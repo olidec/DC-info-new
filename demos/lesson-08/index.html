@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lesson 8 Demo — JavaScript II</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+
+    <h1>JavaScript II Demo</h1>
+    <p class="intro">
+      Three short demos — each builds on the last.
+      Follow along in <code>script.js</code>.
+    </p>
+
+    <!-- Demo 1: Functions with parameters and return values -->
+    <section>
+      <h2>1. Functions with parameters</h2>
+      <p>
+        Enter two numbers and see the result of calling
+        <code>add(a, b)</code>.
+      </p>
+      <input type="number" id="num-a" value="3" style="width:60px">
+      +
+      <input type="number" id="num-b" value="5" style="width:60px">
+      <button onclick="showSum()">Calculate</button>
+      <p>Result: <span id="sum-result">—</span></p>
+    </section>
+
+    <!-- Demo 2: Conditionals -->
+    <section>
+      <h2>2. Conditionals (if / else)</h2>
+      <p>Enter a score (0–100) and get a grade.</p>
+      <input type="number" id="score-input"
+             min="0" max="100" value="75" style="width:80px">
+      <button onclick="showGrade()">Get grade</button>
+      <p>Grade: <span id="grade-result">—</span></p>
+    </section>
+
+    <!-- Demo 3: Loop + quiz -->
+    <section>
+      <h2>3. Quiz — loops and arrays</h2>
+      <div id="question-box">
+        <p><strong id="question-text"></strong></p>
+        <input type="text" id="answer-input"
+               placeholder="Type your answer">
+        <button onclick="submitAnswer()">Submit</button>
+        <p id="feedback"></p>
+      </div>
+      <div id="result-box" style="display:none">
+        <p id="final-score"></p>
+        <p id="score-message"></p>
+        <button onclick="restartQuiz()">Try again</button>
+      </div>
+    </section>
+
+  </body>
+</html>

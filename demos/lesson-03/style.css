@@ -1,0 +1,12 @@
+/* Lesson 3 — style.css */
+/* Almost empty — the point of this demo is to see raw HTML defaults.
+   Only the note box gets a style so it stands out as a teacher annotation. */
+
+.note {
+  margin-top: 2em;
+  padding: 12px 16px;
+  background-color: #fffbe6;
+  border-left: 4px solid #f0c040;
+  font-size: 0.9em;
+  color: #555;
+}

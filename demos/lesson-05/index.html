@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lesson 5 Demo — JavaScript Basics</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+
+    <h1>JavaScript Demo</h1>
+    <p class="intro">
+      This page demonstrates three basic JavaScript interactions.
+      Open <code>script.js</code> to follow along.
+    </p>
+
+    <!-- Demo 1: Change text content -->
+    <section>
+      <h2>1. Changing text content</h2>
+      <p id="greeting">This text will change when you click the button.</p>
+      <button onclick="changeGreeting()">Change text</button>
+    </section>
+
+    <!-- Demo 2: Click counter -->
+    <section>
+      <h2>2. Click counter</h2>
+      <p>You have clicked <span id="count">0</span> times.</p>
+      <button onclick="increment()">Click me</button>
+      <button onclick="resetCount()">Reset</button>
+    </section>
+
+    <!-- Demo 3: Change styles with classList -->
+    <section>
+      <h2>3. Toggling a CSS class</h2>
+      <div id="color-box">Click the button to toggle the highlight.</div>
+      <button onclick="toggleHighlight()">Toggle highlight</button>
+    </section>
+
+  </body>
+</html>

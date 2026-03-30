@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lesson 7 Demo — HTML II + CSS II</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+
+    <!-- Flexbox navigation bar -->
+    <nav class="navbar">
+      <span class="logo">Demo Site</span>
+      <ul class="nav-links">
+        <li><a href="#table-section">Table</a></li>
+        <li><a href="#form-section">Form</a></li>
+        <li><a href="#animation-section">Animation</a></li>
+      </ul>
+    </nav>
+
+    <main>
+
+      <!-- Table -->
+      <section id="table-section">
+        <h2>HTML Table</h2>
+        <p>A simple table displaying structured data.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Type</th>
+              <th>Used for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>&lt;table&gt;</code></td>
+              <td>HTML</td>
+              <td>Container for the whole table</td>
+            </tr>
+            <tr>
+              <td><code>&lt;tr&gt;</code></td>
+              <td>HTML</td>
+              <td>A table row</td>
+            </tr>
+            <tr>
+              <td><code>&lt;th&gt;</code></td>
+              <td>HTML</td>
+              <td>A header cell</td>
+            </tr>
+            <tr>
+              <td><code>&lt;td&gt;</code></td>
+              <td>HTML</td>
+              <td>A data cell</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Form -->
+      <section id="form-section">
+        <h2>HTML Form</h2>
+        <p>A simple contact form. Try tabbing through the fields.</p>
+        <form>
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"
+                   placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"
+                   placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message"
+                      rows="4" placeholder="Write something..."></textarea>
+          </div>
+          <button type="button" onclick="handleForm()">Send message</button>
+        </form>
+        <p id="form-feedback"></p>
+      </section>
+
+      <!-- Hover cards and animation -->
+      <section id="animation-section">
+        <h2>Transitions &amp; Animation</h2>
+        <p>Hover over the cards below. The animation uses CSS only.</p>
+        <div class="card-row">
+          <div class="card">
+            <h3>Card 1</h3>
+            <p>Hover to see the transition effect.</p>
+          </div>
+          <div class="card">
+            <h3>Card 2</h3>
+            <p>Scale and shadow animate smoothly.</p>
+          </div>
+          <div class="card">
+            <h3>Card 3</h3>
+            <p>All controlled from <code>style.css</code>.</p>
+          </div>
+        </div>
+
+        <h3>Keyframe animation</h3>
+        <div class="animated-box">I faded in on load</div>
+      </section>
+
+    </main>
+
+  </body>
+</html>
