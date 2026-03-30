@@ -3,9 +3,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 #let course     = "Computer Science"
-#let level      = "High School"
-#let term       = "[Term / Year]"
-#let lesson-num = "1–2"
+#let level           = "Gymnasium Muttenz"
+#let term            = "2026-27"
+#let lesson-num = "1-2"
 #let sheet-type = "Setup Checklist"
 #let sheet-title = "Software, Git & GitHub"
 
