@@ -127,12 +127,6 @@ VS Code is a free text editor made by Microsoft. It runs on Windows and macOS.
 )
 ]
 
-#warnbox(
-  "⚠ Blocked by the school network?",
-  [If the download does not start or is blocked, let the teacher know.
-   An offline installer is available. Do not try to work around the
-   network block yourself.],
-)
 
 == A quick tour of the interface
 
