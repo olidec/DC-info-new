@@ -357,7 +357,7 @@ quick reference for the most important parts:
     [Files that have been modified since the last commit but not yet staged.],
   [Staged Changes],
     [Files that are ready to be included in the next commit.],
-  [+ button],
+  [\+ button],
     [Stages a single file (hover over a file to see it).],
   [Message field],
     [Where you type your commit message before committing.],
