@@ -82,7 +82,7 @@
       width: 100%,
       inset: 10pt,
       radius: 2pt,
-      text(size: 9.5pt, font: "New Computer Modern Mono", fill: rgb("#111111"), code-content)
+      text(size: 9.5pt, fill: rgb("#111111"), code-content)
     ),
     block(
       fill: rgb("#F5F5F5"),
@@ -105,43 +105,52 @@
 
 = Part 1 — Multiple Choice #h(1fr) #tier-core
 
-#exercise(title: "Tag syntax")[
-  Circle the letter of the correct answer for each question.
+Circle the letter of the correct answer for each question.
 
+#v(0.4em)
+#block(breakable: false)[
   #text(weight: "bold")[1. Which of the following is a correctly written HTML opening tag?]
-
+  #v(0.2em)
   #mc-option("A", [`<paragraph>`])
   #mc-option("B", [`<p>`])
   #mc-option("C", [`(p)`])
   #mc-option("D", [`[p]`])
+]
 
-  #v(0.5em)
+#v(0.4em)
+#block(breakable: false)[
   #text(weight: "bold")[2. How do you write a closing tag for a paragraph?]
-
+  #v(0.2em)
   #mc-option("A", [`<p/>`])
   #mc-option("B", [`</p>`])
   #mc-option("C", [`<-p>`])
   #mc-option("D", [`<!--p-->`])
+]
 
-  #v(0.5em)
+#v(0.4em)
+#block(breakable: false)[
   #text(weight: "bold")[3. Which element should always be the very first line of an HTML document?]
-
+  #v(0.2em)
   #mc-option("A", [`<html>`])
   #mc-option("B", [`<head>`])
   #mc-option("C", [`<!DOCTYPE html>`])
   #mc-option("D", [`<meta charset="UTF-8">`])
+]
 
-  #v(0.5em)
+#v(0.4em)
+#block(breakable: false)[
   #text(weight: "bold")[4. Where does visible page content go?]
-
+  #v(0.2em)
   #mc-option("A", [Inside the `<head>` element])
   #mc-option("B", [Inside the `<html>` element, but outside `<body>`])
   #mc-option("C", [Inside the `<body>` element])
   #mc-option("D", [Inside the `<title>` element])
+]
 
-  #v(0.5em)
+#v(0.4em)
+#block(breakable: false)[
   #text(weight: "bold")[5. Which tag creates an unordered (bulleted) list?]
-
+  #v(0.2em)
   #mc-option("A", [`<list>`])
   #mc-option("B", [`<ol>`])
   #mc-option("C", [`<ul>`])
@@ -153,6 +162,7 @@
 
 For each HTML snippet on the left, describe in your own words what a browser
 would display. Write your answer in the box on the right.
+]
 
 #v(0.5em)
 #text(weight: "bold")[1.]
@@ -165,7 +175,6 @@ would display. Write your answer in the box on the right.
     #v(3em)
   ]
 )
-]
 
 #v(0.6em)
 #text(weight: "bold")[2.]
@@ -208,6 +217,7 @@ would display. Write your answer in the box on the right.
 
 Each question shows a desired result. Circle the letter of the HTML snippet
 that would produce it.
+]
 
 #v(0.5em)
 #text(weight: "bold")[1. You want a large heading that reads "My Hobbies".]
@@ -216,7 +226,6 @@ that would produce it.
 #mc-option("B", raw("<h1>My Hobbies</h1>", lang: "html"))
 #mc-option("C", raw("<heading>My Hobbies</heading>", lang: "html"))
 #mc-option("D", raw("<title>My Hobbies</title>", lang: "html"))
-]
 
 #v(0.6em)
 #text(weight: "bold")[2. You want a clickable link that says "Open Google" and goes to https://google.com.]
@@ -255,66 +264,49 @@ Note: for question 3, both C and D are technically valid HTML. Which one is
 Complete each HTML snippet by filling in the missing parts.
 
 #text(weight: "bold")[1. A valid document skeleton — fill in the four missing tag names:]
+]
 
 #v(0.4em)
-#block(
-  fill: rgb("#F0F0F0"),
-  width: 100%,
-  inset: 12pt,
-  radius: 2pt,
-  text(size: 10pt, font: "New Computer Modern Mono")[
-    \<____________________\> \
-    \<html lang="en"\> \
-    #h(2em) \<____________________\> \
-    #h(4em) \<meta charset="UTF-8"\> \
-    #h(4em) \<title\>My Page\</title\> \
-    #h(2em) \</head\> \
-    #h(2em) \<____________________\> \
-    #h(4em) \<!-- content here --\> \
-    #h(2em) \</____________________\> \
-    \</html\>
-  ]
-)
-]
+```
+<____________________>
+<html lang="en">
+  <__________________>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+  </head>
+  <________________>
+    <!-- content here -->
+  </____________>
+</html>
+```
 
 #v(0.8em)
 #text(weight: "bold")[2. A paragraph with a link — fill in the missing attribute and value:]
 
 #v(0.4em)
-#block(
-  fill: rgb("#F0F0F0"),
-  width: 100%,
-  inset: 12pt,
-  radius: 2pt,
-  text(size: 10pt, font: "New Computer Modern Mono")[
-    \<p\>My favourite website is \
-    #h(2em)\<a ____________________="____________________"\> \
-    #h(4em)click here \
-    #h(2em)\</a\>. \
-    \</p\>
-  ]
-)
+```
+<p>My favorite website is
+  <a ____________="____________________________">
+    click here
+  </a>.
+</p>
+```
 
 #v(0.8em)
 #text(weight: "bold")[3. An image element — fill in both missing attributes:]
 
 #v(0.4em)
-#block(
-  fill: rgb("#F0F0F0"),
-  width: 100%,
-  inset: 12pt,
-  radius: 2pt,
-  text(size: 10pt, font: "New Computer Modern Mono")[
-    \<img ____________________="images/dog.jpg" \
-    #h(4em) ____________________="A brown dog sitting in a park"\>
-  ]
-)
+```
+<img ____________="images/dog.jpg"
+     ____________="A brown dog sitting in a park">
+```
 
 #block(breakable: false)[
 = Part 5 — Spot the Error #h(1fr) #tier-extension
 
 Each snippet below contains one mistake. Find it, circle it, and write
 a correction on the line below.
+]
 
 #text(weight: "bold")[1.]
 ```html
@@ -352,4 +344,3 @@ a correction on the line below.
 This code is syntactically valid — but what is wrong with it from a
 best-practice point of view?
 #answer-space(lines: 2)
-]
