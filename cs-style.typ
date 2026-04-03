@@ -65,7 +65,7 @@
   ],
 )
 
-// Warning box — dark grey title, light background
+// Warning box — dark gray title, light background
 #let warnbox(title, body) = block(
   fill: light,
   inset: (x: 14pt, y: 10pt),
@@ -167,10 +167,10 @@
 
 // Answer space — ruled lines for written responses
 #let answer-space(lines: 4) = {
-  v(0.4em)
+  v(2em)
   for _ in range(lines) {
     line(length: 100%, stroke: 0.4pt + rgb("#CCCCCC"))
-    v(0.9em)
+    v(1em)
   }
 }
 
