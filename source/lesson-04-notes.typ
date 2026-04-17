@@ -458,7 +458,7 @@ you can specify one to four values:
 )
 
 #infobox(
-  "Visualising the box model",
+  "Visualizing the box model",
   [Open your page in a browser, right-click any element, and choose
    *Inspect* (or *Inspect Element*). In the browser developer tools,
    click on an element and look for the box model diagram — it shows
