@@ -2,9 +2,9 @@
 // Exercise Sheet — Lesson 3: HTML Basics
 // ─────────────────────────────────────────────────────────────────────────────
 
-#let course     = "Computer Science"
-#let level      = "High School"
-#let term       = "[Term / Year]"
+#let course          = "Computer Science"
+#let level           = "Gymnasium Muttenz"
+#let term            = "2026-27"
 #let lesson-num = "3"
 #let sheet-type = "Exercise Sheet"
 #let sheet-title = "HTML Basics"

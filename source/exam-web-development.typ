@@ -2,9 +2,9 @@
 // Written Exam — Web Development Unit
 // ─────────────────────────────────────────────────────────────────────────────
 
-#let course     = "Computer Science"
-#let level      = "High School"
-#let term       = "[Term / Year]"
+#let course          = "Computer Science"
+#let level           = "Gymnasium Muttenz"
+#let term            = "2026-27"
 #let sheet-type = "Written Exam"
 
 // ── Page setup ────────────────────────────────────────────────────────────────
