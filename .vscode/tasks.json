@@ -2,16 +2,50 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build all PDFs",
+      "label": "Typst: Build all PDFs",
       "type": "shell",
       "command": "./build.sh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "presentation": {
         "reveal": "always",
-        "panel": "shared"
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Compile current file",
+      "type": "shell",
+      "command": "./build.sh \"${file}\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Watch current file",
+      "type": "shell",
+      "command": "./build.sh --watch \"${file}\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
       },
       "problemMatcher": []
     }
