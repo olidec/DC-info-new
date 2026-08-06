@@ -65,7 +65,7 @@
   ],
 )
 
-// Warning box — dark gray title, light background
+// Warning box — dark grey title, light background
 #let warnbox(title, body) = block(
   fill: light,
   inset: (x: 14pt, y: 10pt),
@@ -137,7 +137,13 @@
 #let ex-counter = counter("exercise")
 
 // Exercise block — auto-numbered, optional title and points
-#let exercise(title: "", points: none, body) = {
+//
+// breakable: false (default) keeps the whole exercise on one page.
+//            Set to true for long exercises (e.g. multiple-choice blocks
+//            with many questions) that cannot fit on a single page —
+//            otherwise Typst pushes them to a fresh page and they
+//            overflow, leaving near-empty pages behind.
+#let exercise(title: "", points: none, breakable: false, body) = {
   ex-counter.step()
   let pts-label = if points != none {
     text(size: 9pt, fill: muted)[(#points P.)]
@@ -145,7 +151,7 @@
 
   block(
     width: 100%,
-    breakable: false,
+    breakable: breakable,
     inset: (left: 0pt, right: 0pt, top: 2pt, bottom: 8pt),
     {
       grid(
@@ -167,10 +173,10 @@
 
 // Answer space — ruled lines for written responses
 #let answer-space(lines: 4) = {
-  v(2em)
+  v(0.4em)
   for _ in range(lines) {
     line(length: 100%, stroke: 0.4pt + rgb("#CCCCCC"))
-    v(1em)
+    v(0.9em)
   }
 }
 
