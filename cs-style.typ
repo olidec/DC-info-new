@@ -137,6 +137,7 @@
 #let ex-counter = counter("exercise")
 
 // Exercise block — auto-numbered, optional title and points
+// Exercise block — auto-numbered, optional title and points
 //
 // breakable: false (default) keeps the whole exercise on one page.
 //            Set to true for long exercises (e.g. multiple-choice blocks
@@ -242,5 +243,14 @@
       ]
     ),
   )
+)
+
+// Fill-in-the-blank underline — use instead of runs of underscores.
+// Typst reads consecutive underscores as (empty) italic markup, which
+// triggers a "no text within underscores" warning, so this is the
+// correct way to draw a blank for students to write in.
+#let blank(width: 4em) = box(
+  width: width,
+  line(length: 100%, stroke: 0.6pt + rgb("#111111"))
 )
 
