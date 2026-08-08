@@ -458,7 +458,7 @@ you can specify one to four values:
 )
 
 #infobox(
-  "Visualizing the box model",
+  "Visualising the box model",
   [Open your page in a browser, right-click any element, and choose
    *Inspect* (or *Inspect Element*). In the browser developer tools,
    click on an element and look for the box model diagram — it shows
@@ -476,6 +476,35 @@ container like a `<div>` will push content below it.
 
 The traditional CSS solution for this is `float`. It pulls an element
 out of the normal flow and allows text to wrap around it:
+
+#align(center,
+  figure(
+    block(width: 300pt, height: 170pt, {
+      place(top + left, rect(width: 300pt, height: 170pt,
+        fill: white, stroke: 0.6pt + rgb("#CCCCCC"), radius: 2pt))
+      place(top + left, dx: 10pt, dy: 10pt,
+        rect(width: 90pt, height: 90pt, fill: accent, radius: 2pt,
+          align(center + horizon,
+            text(size: 9pt, fill: white, weight: "bold")[IMG])))
+      place(top + left, dx: 112pt, dy: 15pt,
+        rect(width: 170pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 112pt, dy: 33pt,
+        rect(width: 150pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 112pt, dy: 51pt,
+        rect(width: 170pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 112pt, dy: 69pt,
+        rect(width: 120pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 10pt, dy: 112pt,
+        rect(width: 280pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 10pt, dy: 130pt,
+        rect(width: 240pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+      place(top + left, dx: 10pt, dy: 148pt,
+        rect(width: 260pt, height: 8pt, fill: rgb("#DDDDDD"), radius: 1pt))
+    }),
+    caption: [Text flows around the floated image while it lasts, then
+      returns to full width once the image ends.],
+  )
+)
 
 ```css
 .profile-photo {

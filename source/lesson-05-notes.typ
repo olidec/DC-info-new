@@ -180,6 +180,40 @@ Think of the DOM as a live map of your HTML. If you change something
 in the DOM using JavaScript, the page updates immediately — no reload
 required.
 
+#{
+  let node(x, y, w, h, label) = place(top + left, dx: x, dy: y,
+    rect(
+      width: w, height: h,
+      fill: rgb("#F0F4F8"),
+      stroke: 1pt + accent,
+      radius: 2pt,
+      align(center + horizon, text(size: 9pt, fill: rgb("#111111"), label))
+    )
+  )
+  let vline(x, y, len) = place(top + left, dx: x, dy: y,
+    line(length: len, angle: 90deg, stroke: 1pt + rgb("#999999")))
+  let hline(x, y, len) = place(top + left, dx: x, dy: y,
+    line(length: len, stroke: 1pt + rgb("#999999")))
+
+  align(center,
+    figure(
+      block(width: 380pt, height: 130pt, {
+        node(150pt, 5pt, 80pt, 30pt, [`<body>`])
+        vline(189pt, 35pt, 25pt)
+        hline(65pt, 60pt, 250pt)
+        vline(65pt, 60pt, 20pt)
+        vline(190pt, 60pt, 20pt)
+        vline(315pt, 60pt, 20pt)
+        node(10pt, 80pt, 110pt, 34pt, [`<h1 id="title">`])
+        node(140pt, 80pt, 100pt, 34pt, [`<p>`])
+        node(260pt, 80pt, 110pt, 34pt, [`<button>`])
+      }),
+      caption: [The DOM represents your HTML as a tree of elements.
+        Selecting `id="title"` finds exactly one box in this tree.],
+    )
+  )
+}
+
 == Selecting elements
 
 Before you can change something on the page, you need to get a reference

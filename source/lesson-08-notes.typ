@@ -126,6 +126,35 @@ add(3, 5);   // prints 8 to the console
 add(10, 2);  // prints 12
 ```
 
+#{
+  let flow-box(label, sublabel) = block(
+    width: 110pt, height: 55pt,
+    fill: rgb("#F0F4F8"), stroke: 1pt + accent, radius: 3pt,
+    align(center + horizon, stack(spacing: 3pt,
+      text(size: 10pt, weight: "bold", fill: rgb("#111111"), label),
+      text(size: 8pt, fill: rgb("#666666"), sublabel),
+    ))
+  )
+  let arrow = block(width: 30pt, height: 55pt,
+    align(center + horizon, text(size: 16pt, fill: accent)[#sym.arrow.r]))
+
+  align(center,
+    figure(
+      grid(
+        columns: (auto, auto, auto, auto, auto),
+        column-gutter: 8pt,
+        flow-box([Input], [a = 3, b = 5]),
+        arrow,
+        flow-box([add(a, b)], [return a + b]),
+        arrow,
+        flow-box([Output], [8]),
+      ),
+      caption: [Parameters go in, the function computes something,
+        `return` sends a value back out.],
+    )
+  )
+}
+
 == Return values
 
 A function can send a value *back* to whoever called it using `return`:

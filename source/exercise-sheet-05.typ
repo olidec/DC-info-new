@@ -102,7 +102,7 @@
 
 = Part 1 — Multiple Choice #h(1fr) #tier-core
 
-#exercise(title: "Concepts and syntax")[
+#exercise(title: "Concepts and syntax", breakable: true)[
   Circle the letter of the correct answer.
 
   #v(0.4em)
@@ -130,6 +130,7 @@
   #mc-option("D", [`int score = 0`])
 
   #v(0.5em)
+  #colbreak()
   #text(weight: "bold")[4. What does `document.getElementById("title")` return?]
 
   #mc-option("A", [The text content of the element with `id="title"`])
@@ -174,6 +175,7 @@ h.textContent = "Good morning!";
 ]
 
 #v(0.5em)
+#pagebreak()
 #text(weight: "bold")[2.]
 #code-output(
   raw(lang: "js",
@@ -221,10 +223,10 @@ Complete each snippet by filling in the missing parts.
 #text(weight: "bold")[1. Declare a variable called `clicks` starting at zero, and a function that adds one to it each time it is called:]]
 
 #fitb[
-  \_____ clicks = 0; \
+  #blank(width: 3em) clicks = 0; \
   \
-  _____________________ addClick() \{ \
-  #h(2em) clicks = clicks _____ 1; \
+  #blank(width: 7em) addClick() \{ \
+  #h(2em) clicks = clicks #blank(width: 2em) 1; \
   \}
 ]
 
@@ -232,23 +234,24 @@ Complete each snippet by filling in the missing parts.
 #text(weight: "bold")[2. Select the element with `id="score"` and set its text to the value of `clicks`:]
 
 #fitb[
-  const display = document._____________________("score"); \
-  display._____________________ = clicks;
+  const display = document.#blank(width: 9em) ("score"); \
+  display.#blank(width: 7em) = clicks;
 ]
 
 #v(0.6em)
 #text(weight: "bold")[3. Connect a button to a function called `reset` using `onclick`:]
 
 #fitb[
-  #sym.lt\button ______________________="reset()"#sym.gt\Reset#sym.lt\/button#sym.gt
+  #sym.lt\button #blank(width: 5em)="reset()"#sym.gt\Reset#sym.lt\/button#sym.gt
 ]
 
 #v(0.6em)
+#pagebreak()
 #text(weight: "bold")[4. Toggle a CSS class called `highlight` on an element:]
 
 #fitb[
   const el = document.getElementById("my-div"); \
-  el.classList.______________________("highlight");
+  el.classList.#blank(width: 5em) ("highlight");
 ]
 
 #block(breakable: false)[

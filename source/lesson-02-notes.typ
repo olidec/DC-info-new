@@ -79,6 +79,7 @@
   [Understand what Git is and why version control matters.],
   [Know the key concepts: repository, staging area, commit, push, pull.],
   [Create a GitHub account and accept a GitHub Classroom assignment.],
+  [Know the basics of Markdown and when to use it instead of Typst.],
   [Complete the full workflow: clone → edit → stage → commit → push.],
 )
 
@@ -282,6 +283,91 @@ you can work on it. You will do this inside VS Code.
    ```],
 )
 
+= Markdown: A Second Markup Language
+
+Before you open your first file in the cs-intro repository, there is one
+more thing worth knowing. Two of the files in your repository —
+`README.md` and `JOURNAL.md` — are written in *Markdown*, not Typst.
+
+#infobox(
+  "Why a second syntax?",
+  [Markdown is the standard way of writing formatted text on GitHub.
+   Any file ending in `.md` is automatically rendered with headings,
+   bold text, and lists directly on the GitHub website — no compiling
+   required. This is extremely convenient for files that live *in* a
+   repository and are meant to be read *on* GitHub, like a README or a
+   learning log. Typst, by contrast, is built for producing polished,
+   printable documents — perfect for your personal notes, but GitHub
+   has no idea how to render a `.typ` file.],
+)
+
+You already know Typst's markup from Lesson 1. The good news is that
+Markdown's basic syntax is extremely similar — just with different
+symbols. Here is a side-by-side comparison of everything you need for
+now:
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  stroke: none,
+  fill: (_, row) => if row == 0 { primary } else if calc.odd(row) { light } else { white },
+  inset: 8pt,
+  table.header(
+    text(size: 9pt, weight: "bold", fill: white)[You want],
+    text(size: 9pt, weight: "bold", fill: white)[Typst (`.typ`)],
+    text(size: 9pt, weight: "bold", fill: white)[Markdown (`.md`)],
+  ),
+  [Heading (level 1)],  [`= Heading`],        [`# Heading`],
+  [Heading (level 2)],  [`== Subheading`],    [`## Subheading`],
+  [Bold text],           [`*bold*`],           [`**bold**`],
+  [Italic text],          [`_italic_`],         [`*italic*`],
+  [Inline code],           [#raw("`code`")],       [#raw("`code`")],
+  [Bullet list],            [`- item`],           [`- item`],
+  [Numbered list],           [`+ item`],           [`1. item`],
+  [New paragraph],            [blank line],         [blank line],
+)
+
+#warnbox(
+  "⚠ The most common mix-up",
+  [Markdown uses *one* asterisk for italic and *two* for bold — the
+   opposite pattern from what you might expect if you are thinking in
+   Typst, where a single asterisk is already bold. If your text in a
+   `.md` file looks italic when you wanted it bold, this is almost
+   always why.],
+)
+
+== Fenced code blocks
+
+For longer pieces of code — the kind you will want to include in
+`JOURNAL.md` when documenting something you learned — Markdown uses
+*fenced code blocks*, written with three backticks on their own line,
+before and after the code:
+
+#block(
+  fill: rgb("#F0F0F0"),
+  width: 100%,
+  inset: 12pt,
+  radius: 2pt,
+  raw("```html\n<p>This is a code example.</p>\n```")
+)
+
+This works exactly like Typst's own triple-backtick code blocks, which
+you have already seen throughout these lesson notes. Writing the
+language name (`html`, `css`, `js`) directly after the opening backticks
+is optional but makes GitHub apply syntax highlighting.
+
+== Previewing Markdown in VS Code
+
+You do not need to guess how a `.md` file will look. VS Code can preview
+it directly:
+
+#steps(
+  [Open a `.md` file — for example `README.md`.],
+  [Open the preview via *View → Command Palette*, then search for
+   *Markdown: Open Preview to the Side*.],
+  [A live preview panel opens next to your editor, updating as you type
+   — just like the Typst preview from Lesson 1.],
+)
+
 = Making Your First Commit
 
 Now that you have the repository on your computer, let us make a change,
@@ -376,6 +462,7 @@ By the end of this lesson you should have:
 #checklist(
   [A GitHub account that you can log into.],
   [Accepted the GitHub Classroom assignment and opened the repo in VS Code.],
+  [Can name at least three differences between Typst and Markdown syntax.],
   [Edited `README.md` with your name.],
   [Made your first commit with a clear commit message.],
   [Pushed your commit to GitHub and verified it appears online.],

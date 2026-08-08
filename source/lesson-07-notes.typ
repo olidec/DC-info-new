@@ -307,6 +307,36 @@ left to right.
     [Allows items to wrap onto a new line if they run out of space.],
 )
 
+#{
+  let flex-item(x, y) = place(top + left, dx: x, dy: y,
+    rect(width: 40pt, height: 30pt, fill: accent, radius: 2pt))
+
+  let flex-row(label, x1, x2, x3) = block(breakable: false, {
+    text(size: 9pt, weight: "bold", fill: accent, label)
+    v(0.2em)
+    block(width: 320pt, height: 50pt, {
+      place(top + left, rect(width: 320pt, height: 50pt,
+        fill: light, stroke: 0.6pt + rgb("#CCCCCC"), radius: 2pt))
+      flex-item(x1, 10pt)
+      flex-item(x2, 10pt)
+      flex-item(x3, 10pt)
+    })
+    v(0.8em)
+  })
+
+  align(center,
+    figure(
+      block(width: 320pt, {
+        flex-row([`justify-content: flex-start`], 10pt, 60pt, 110pt)
+        flex-row([`justify-content: center`], 90pt, 140pt, 190pt)
+        flex-row([`justify-content: space-between`], 10pt, 140pt, 270pt)
+      }),
+      caption: [The same three flex items, rearranged by `justify-content`
+        alone — nothing else about the HTML or the items themselves changes.],
+    )
+  )
+}
+
 == A practical example: navigation bar
 
 ```html

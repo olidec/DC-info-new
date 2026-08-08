@@ -347,7 +347,7 @@ Complete each snippet by filling in the missing parts.
 ]
 
 #v(0.6em)
-#text(weight: "bold")[2. Make every paragraph dark grey with comfortable line spacing:]
+#text(weight: "bold")[2. Make every paragraph dark gray with comfortable line spacing:]
 
 #fitb[
   #raw("p {") \
@@ -415,7 +415,7 @@ The rule is supposed to style `<p class="intro">`.
 #text(weight: "bold")[4.]
 ```css
 p {
-  colour: #222222;
+  color: #222222;
 }
 ```
 #answer-space(lines: 1)
@@ -462,7 +462,7 @@ styles.
   [Body text is at least 16px with a line height between 1.4 and 1.8.],
   [The `#profile` box has a background color and padding on all sides.],
   [The heading uses a different color from the body text.],
-  [The tagline is italic and a lighter grey than the main text.],
+  [The tagline is italic and a lighter gray than the main text.],
   [The portrait floats to one side with a margin so the text does not touch it.],
   [Nothing is styled using an inline `style` attribute.],
 )
