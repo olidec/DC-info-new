@@ -347,13 +347,13 @@ to the *entire raw score*.
     text(size: 9pt, weight: "bold", fill: white)[Submission],
     text(size: 9pt, weight: "bold", fill: white)[Oral %],
   ),
-  text(size: 9pt, fill: rgb("#555555"))[/ 2],
-  text(size: 9pt, fill: rgb("#555555"))[/ 3],
-  text(size: 9pt, fill: rgb("#555555"))[/ 3],
-  text(size: 9pt, fill: rgb("#555555"))[/ 3],
-  text(size: 9pt, fill: rgb("#555555"))[/ 1],
+  text(size: 9pt, fill: rgb("#555555"))[#"/ 2"],
+  text(size: 9pt, fill: rgb("#555555"))[#"/ 3"],
+  text(size: 9pt, fill: rgb("#555555"))[#"/ 3"],
+  text(size: 9pt, fill: rgb("#555555"))[#"/ 3"],
+  text(size: 9pt, fill: rgb("#555555"))[#"/ 1"],
   text(size: 9pt, fill: rgb("#555555"))[#sym.times],
 )
 
 #v(0.4em)
-#text(size: 10pt, fill: muted)[Raw score total: #h(1fr) / 12 #h(2em) Final grade: #h(1fr)]
+#text(size: 10pt, fill: muted)[Raw score total: #h(1fr) #"/ 12" #h(2em) Final grade: #h(1fr)]
