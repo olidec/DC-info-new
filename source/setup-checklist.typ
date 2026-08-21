@@ -179,17 +179,43 @@ git config --global --list
   [Went to #link("https://github.com") and created an account.],
   [Chose a sensible username (name or initials — visible to the teacher).],
   [Confirmed the account via the verification email.],
+  [Set up two-factor authentication and *saved the recovery codes* somewhere
+   I will still find them in June.],
 )
 ]
 
-== Accepting the GitHub Classroom assignment
+== Joining the class organization
 
 #checklist(
-  [Clicked the assignment link provided by the teacher.],
-  [Clicked *Accept this assignment* — GitHub created a private repository.],
-  [Opened the repository page and recognised the starter files:
+  [Gave my GitHub username to the teacher.],
+  [Accepted the invitation — either from the email, or by visiting
+   #link("https://github.com/gymmu-DC-CS")[`github.com/gymmu-DC-CS`] while
+   signed in.],
+  [Can open the organization page without a "404 — not found" error.],
+)
+
+#block(breakable: false)[
+== Creating my assignment repository
+
+#checklist(
+  [Opened
+   #link("https://github.com/gymmu-DC-CS/cs-intro-template")[`cs-intro-template`]
+   and clicked *Use this template → Create a new repository*.],
+  [Set *Owner* to `gymmu-DC-CS` — *not* my own username.],
+  [Named it `cs-intro-2627-` + my family name in lower case
+   (e.g. `cs-intro-2627-mueller`).],
+  [Set the visibility to *Private*.],
+  [Opened the new repository and recognised the starter files:
    `index.html`, `style.css`, `script.js`, `README.md`, `JOURNAL.md`.],
 )
+
+#warnbox(
+  "⚠ Repository in the wrong place?",
+  [If it ended up under your own username, do not delete it. Open
+   *Settings*, scroll to the bottom, and use *Transfer ownership* to move it
+   to `gymmu-DC-CS`. Nothing is lost.],
+)
+]
 
 #block(breakable: false)[
 == Cloning the repository in VS Code

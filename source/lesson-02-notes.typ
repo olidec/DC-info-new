@@ -78,7 +78,8 @@
 #goals(
   [Understand what Git is and why version control matters.],
   [Know the key concepts: repository, staging area, commit, push, pull.],
-  [Create a GitHub account and accept a GitHub Classroom assignment.],
+  [Create a GitHub account, join the course organization, and create your
+   own assignment repository from a template.],
   [Know the basics of Markdown and when to use it instead of Typst.],
   [Complete the full workflow: clone → edit → stage → commit → push.],
 )
@@ -188,7 +189,7 @@ The two main operations that move changes between local and remote are:
      Used when the remote has changes you do not have locally yet.],
   [*Clone*],
     [Creates a local copy of a remote repository for the first time.
-     This is how you get a GitHub Classroom assignment onto your computer.],
+     This is how you get your assignment repository onto your computer.],
 )
 
 #infobox(
@@ -198,17 +199,36 @@ The two main operations that move changes between local and remote are:
    Every commit should be followed by a push.],
 )
 
-= GitHub and GitHub Classroom
+= GitHub and the Course Organization
 
 *GitHub* is a website that hosts Git repositories. It is free to use and
 is the most popular platform of its kind. Beyond storage, it provides
 tools for collaboration, issue tracking, and code review — all things you
 will encounter if you continue with software development.
 
-*GitHub Classroom* is a feature of GitHub designed for education. It lets
-your teacher distribute assignment repositories to the whole class at once.
-Each student gets their own private copy of the assignment repository, which
-only they and the teacher can see.
+An *organization* on GitHub is a shared account that owns repositories on
+behalf of a group rather than an individual. Companies use organizations to
+hold their projects; open-source communities use them too. This course has
+one:
+
+#align(center)[
+  #text(size: 11pt)[`github.com/gymmu-DC-CS`]
+]
+
+Your work for this course lives inside that organization, in a *private*
+repository that you create yourself from a shared starting point called a
+*template*. Private means exactly what it says: you and your teacher can see
+it, your classmates cannot.
+
+#infobox(
+  "Why not just work in your own account?",
+  [Because the organization is where the course lives. Your teacher can see
+   every repository in it without you having to grant access, the naming stays
+   consistent across the class, and your work is still there in June even if
+   you change your username or clean out your personal account. This is also
+   how it works in a company: the code belongs to the organization, not to the
+   individual developer.],
+)
 
 == Creating a GitHub account
 
@@ -230,22 +250,72 @@ If you do not already have a GitHub account, create one now.
    address. You will need access to this account throughout the year.],
 )
 
-= Your First GitHub Classroom Assignment
+#warnbox(
+  "⚠ Two-factor authentication and recovery codes",
+  [GitHub will probably ask you to set up two-factor authentication, usually
+   with an authenticator app on your phone. When it shows you a list of
+   *recovery codes*, save them somewhere you will still be able to find them
+   in June. They are what gets you back into your account if you lose or
+   reset your phone.],
+)
 
-Your teacher will post a link to the first GitHub Classroom assignment.
-This link is how you accept the assignment and get your own copy of the
-starter repository.
+= Your First Assignment Repository
 
-== Accepting the assignment
+Getting your repository takes two steps: joining the organization, then
+creating your own copy of the course template inside it.
+
+== Joining the organization
+
+Your teacher needs your GitHub username in order to invite you — so make sure
+you have handed it in before this step.
 
 #steps(
-  [Click the assignment link provided by your teacher.],
-  [If prompted, sign in to GitHub.],
-  [Click *Accept this assignment*. GitHub will create a private repository
-   for you — this may take a few seconds.],
-  [Once it is ready, GitHub will show you a link to your new repository.
-   Click it and take a look around. You will see the starter files:
+  [Give your GitHub username to your teacher.],
+  [Wait for the invitation email from GitHub and click *Join*. \
+   If the email has not arrived, go to
+   #link("https://github.com/gymmu-DC-CS")[`github.com/gymmu-DC-CS`] while
+   signed in — the invitation is waiting for you there as well.],
+  [Once you have joined, open the organization page. If it loads instead of
+   showing a "404 — not found" error, you are a member.],
+)
+
+#warnbox(
+  "⚠ Join before you continue",
+  [You must be a member of the organization before the next step. If you are
+   not, the organization will not appear in the dropdown and your repository
+   will be created in the wrong place.],
+)
+
+== Creating your repository from the template
+
+A *template repository* is a repository marked as a starting point. Anyone
+with access can make their own independent copy of it, with all the files
+already in place but a fresh, empty history — so your commits start from zero
+and are entirely your own.
+
+#steps(
+  [Go to
+   #link("https://github.com/gymmu-DC-CS/cs-intro-template")[`github.com/gymmu-DC-CS/cs-intro-template`].],
+  [Click the green *Use this template* button, then
+   *Create a new repository*.],
+  [Under *Owner*, open the dropdown and choose *gymmu-DC-CS*. \
+   #text(fill: warn)[This is the step people get wrong — it defaults to your
+   own username.]],
+  [Under *Repository name*, type `cs-intro-2627-` followed by your family name
+   in lower case, with no spaces and no accents. \
+   Anna Müller #sym.arrow.r `cs-intro-2627-mueller`],
+  [Set the visibility to *Private*.],
+  [Click *Create repository* and wait a few seconds.],
+  [Take a look around your new repository. You will see the starter files:
    `index.html`, `style.css`, `script.js`, `README.md`, and `JOURNAL.md`.],
+)
+
+#infobox(
+  "If you got the owner wrong",
+  [It happens, and it is fixable — do not delete the repository and start
+   again. Open *Settings*, scroll to the bottom, and choose
+   *Transfer ownership* to `gymmu-DC-CS`. Everything you have done so far
+   is preserved.],
 )
 
 == Cloning the repository in VS Code
@@ -257,7 +327,7 @@ you can work on it. You will do this inside VS Code.
   [On your repository page on GitHub, click the green *Code* button.
    Make sure *HTTPS* is selected, then copy the URL shown.
    It will look something like:
-   `https://github.com/your-classroom/assignment-yourname`],
+   `https://github.com/gymmu-DC-CS/cs-intro-2627-mueller.git`],
   [Open VS Code.],
   [Open the Command Palette via *View → Command Palette*.],
   [Type `Git: Clone` and select it from the list.],
@@ -276,7 +346,7 @@ you can work on it. You will do this inside VS Code.
    cs-course/
    ├── lesson-01/
    │   └── notes.typ
-   └── cs-intro/       ← the cloned assignment repo
+   └── cs-intro-2627-mueller/   ← your cloned assignment repo
        ├── index.html
        ├── style.css
        └── ...
@@ -285,7 +355,7 @@ you can work on it. You will do this inside VS Code.
 
 = Markdown: A Second Markup Language
 
-Before you open your first file in the cs-intro repository, there is one
+Before you open your first file in your assignment repository, there is one
 more thing worth knowing. Two of the files in your repository —
 `README.md` and `JOURNAL.md` — are written in *Markdown*, not Typst.
 
@@ -460,8 +530,11 @@ quick reference for the most important parts:
 By the end of this lesson you should have:
 
 #checklist(
-  [A GitHub account that you can log into.],
-  [Accepted the GitHub Classroom assignment and opened the repo in VS Code.],
+  [A GitHub account that you can log into, with the recovery codes saved.],
+  [Joined the `gymmu-DC-CS` organization.],
+  [Created your own private repository from the template, owned by the
+   organization and named correctly.],
+  [Cloned the repository and opened it in VS Code.],
   [Can name at least three differences between Typst and Markdown syntax.],
   [Edited `README.md` with your name.],
   [Made your first commit with a clear commit message.],
