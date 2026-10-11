@@ -5,12 +5,12 @@
 
 function changeGreeting() {
   const greeting = document.getElementById("greeting");
-  greeting.textContent = "Hello from JavaScript!";
+  greeting.textContent = "Generic Greeting Text!";
 }
 
 // ── Demo 2: Click counter ─────────────────────────────────────────────────────
 
-let clickCount = 0;   // let because it changes
+let clickCount = 0; // let because it changes
 
 function increment() {
   clickCount = clickCount + 1;
