@@ -14,8 +14,8 @@
 
 // ── Default metadata (override in each document before importing) ─────────────
 #let course = "Computer Science"
-#let level  = "High School"
-#let term   = "[Term / Year]"
+#let level  = "Gymnasium Muttenz"
+#let term   = "2026-27"
 
 // ── Palette ───────────────────────────────────────────────────────────────────
 #let primary = rgb("#111111")
