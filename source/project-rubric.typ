@@ -216,6 +216,13 @@ to the *entire raw score*.
     "A single commit, or nearly so. No visible development process."),
 ))
 
+#note(
+  "Organization counts toward Process",
+  [Booking your Technical Discussion slot by the booking deadline and
+   arriving on time are part of this criterion. If you fail to do
+   either, your Process score drops by one level.],
+)
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IMPLEMENTATION
 // ─────────────────────────────────────────────────────────────────────────────
@@ -270,6 +277,13 @@ to the *entire raw score*.
   ("--", "0%",
     "The site does not run after a fresh clone, or the submission is missing or very late without communication."),
 ))
+
+#warnbox(
+  "⚠ Missing files",
+  [Every file listed under "What to Submit" in the assignment sheet is
+   required. Missing files lead to deductions in the criteria they
+   belong to.],
+)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ORAL DEFENSE

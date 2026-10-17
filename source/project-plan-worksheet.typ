@@ -49,7 +49,7 @@
 #{
   text(size: 18pt, weight: "bold", fill: primary)[Project Planning & Retrospective]
   v(0.1em)
-  text(size: 11pt, fill: muted)[#course #sym.bar.v #level #sym.bar.v #term]
+  text(size: 11pt, fill: muted)[Web Development Project #sym.bar.v #level #sym.bar.v #term]
   v(0.3em)
   line(length: 100%, stroke: 1pt + accent)
   v(0.5em)
@@ -65,9 +65,11 @@
     code* — in your first project session. Part C is completed in your
     *final* project session, after your site is finished. \
     \
-    This worksheet is graded as part of the *Planning* criterion. Submit it
-    alongside your repository — either as a scan/photo of the handwritten
-    sheet, or filled in digitally in Typst and exported as a PDF.
+    This worksheet is graded as part of the *Planning* criterion. You hand
+    it in by uploading scans to your project repository, in two stages:
+    + *Parts A and B* — before you write any code, saved as `plan-AB`.
+    + *Part C* — together with your final submission, saved as `plan-C`.
+    A PDF or a clear photo (JPG or PNG) is fine.
   ]
 )
 
@@ -194,8 +196,8 @@ is exactly what Part C is for).
 
 #note(
   "This is a real commitment, not a formality",
-  [Push this plan to your repository — either as this worksheet or
-   summarized in your `README.md` — as one of your *first* commits.
+  [Scan Parts A and B and push the scan to your repository as `plan-AB`
+   *before you start coding* — it must be one of your *first* commits.
    Your teacher will check the timestamp. A plan written or backdated
    after the fact defeats its purpose.],
 )
@@ -215,7 +217,9 @@ is exactly what Part C is for).
   inset: (x: 14pt, y: 10pt),
   radius: 2pt,
   [*Fill this in during your final project session*, after your site is
-   finished. Look back at Parts A and B before you start.]
+   finished. Look back at Parts A and B before you start. When you are
+   done, scan Part C and push it to your repository as `plan-C`
+   *before the submission deadline*.]
 )
 
 #v(0.6em)
