@@ -98,6 +98,7 @@ organization, `gymmu-DC-CS`. The template contains three (mostly) empty
 files: `index.html`, `style.css`, and `script.js`. All your work must
 remain in — or be linked from — these files.
 
+#pagebreak()
 == Creating the repository on GitHub
 
 #steps(
@@ -139,6 +140,7 @@ remain in — or be linked from — these files.
   [The project repository is its own folder. Do not save it inside your
    `cs-intro` repository or any other repository. Your structure should
    look like:
+
    ```
    cs-course/
    ├── cs-intro-2627-muster/     ← your earlier repository
@@ -186,6 +188,7 @@ You will return to this worksheet at the *end* of the project to write a
 short retrospective (Part C) comparing what you built to what you planned.
 Scan Part C and push it as `plan-C` together with your final submission.
 
+#pagebreak()
 = Technical Requirements
 
 == File structure
@@ -231,6 +234,7 @@ Scan Part C and push it as `plan-C` together with your final submission.
    not scope.],
 )
 
+#pagebreak()
 = Documenting Your Learning
 
 == Git commits
@@ -279,6 +283,7 @@ resources as learning tools. You may *not* copy code directly without
 understanding it. Any code you include must be analyzed and adapted to
 your own project's needs.
 
+#pagebreak()
 #warnbox(
   "⚠ You will be asked to explain any part of your code",
   [This includes code that was originally suggested by an AI. If you
@@ -319,6 +324,7 @@ advance (see Timeline and Deadlines). You should be prepared to:
    without fully understanding it first.],
 )
 
+#pagebreak()
 = Timeline and Deadlines
 
 == Key dates

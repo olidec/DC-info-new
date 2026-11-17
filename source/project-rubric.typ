@@ -142,6 +142,7 @@ For the five additive criteria, the percentage is applied to that
 criterion's maximum points. For Oral Defense, the percentage is applied
 to the *entire raw score*.
 
+#pagebreak()
 == Worked examples
 
 #table(
