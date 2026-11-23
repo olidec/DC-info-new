@@ -179,6 +179,7 @@ moves to score a point. After 20 jumps the game is over.
   )
 ]
 
+#pagebreak()
 *`pop.html`*
 ```html
 <!doctype html>
@@ -235,6 +236,7 @@ let timer = setInterval(moveIt, 1000);
   click it, it shrinks and the score at the top goes up. After about 20
   seconds a "game over!" message appears.]
 
+#pagebreak()
 #note("Line numbers", [When a question below mentions a line number, it
   means the line number shown on the left in VS Code. If your file looks
   different from the code above (for example an extra empty line at the
@@ -273,6 +275,7 @@ Read this table carefully. You will need these ideas in all three games.
      when the script looks for it.],
 )
 
+#pagebreak()
 #infobox("Where do the variables balloon and scoreBox come from?", [
   `pop.js` uses `balloon` and `scoreBox` without ever creating them with
   `let` or `const`. This works because browsers automatically create a
@@ -423,6 +426,7 @@ yellow ball from falling past the bat.
     tag in the HTML file — it is HTML, not JavaScript.]
 ]
 
+#pagebreak()
 #exercise(title: "Investigate and modify", breakable: true)[
   + Change the colors of the board, the ball and the bat.
   + What is the starting position of the ball? Where in the code is it
@@ -463,6 +467,7 @@ keyboard to catch as many as you can in 30 seconds.
 This game draws on a `<canvas>` — an area of the page that JavaScript can
 paint on like a picture, instead of moving HTML elements around.
 
+#pagebreak()
 == Before you type
 
 #exercise(title: "Read about the canvas")[
@@ -491,6 +496,7 @@ paint on like a picture, instead of moving HTML elements around.
     browsers or keyboards.],
 )
 
+#pagebreak()
 == Type, split and play
 
 #exercise(title: "Type, split and play")[
