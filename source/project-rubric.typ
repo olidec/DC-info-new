@@ -353,6 +353,7 @@ to the *entire raw score*.
   columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
   stroke: none,
   fill: (_, row) => if row == 0 { rgb("#111111") } else { rgb("#F5F5F5") },
+  align: (_, row) => if row == 0 { left } else { center },
   inset: 8pt,
   table.header(
     text(size: 9pt, weight: "bold", fill: white)[Planning],
