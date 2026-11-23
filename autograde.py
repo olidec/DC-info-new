@@ -7,7 +7,9 @@ autograde.py - collect rubric evidence from the cs-project web-development repos
 
 It does NOT assign grades. For every repo it writes a report of OK / WARN / FAIL / info
 findings grouped by rubric criterion (with three suggested discussion lines for the oral defense),
-plus summary.csv, similarity.csv and one combined all-reports.pdf for the whole class.
+plus summary.csv, similarity.csv, one combined all-reports.pdf for the whole class and
+oral-defense-sheets.pdf (one printable page per student: discussion lines, notes, grading table).
+The root commit (the Classroom "Initial commit") is always treated as starter code.
 Anything that needs human judgment (Oral Defense, quality of the plan, whether a journal
 entry shows real engagement) is only flagged, never decided.
 
@@ -127,6 +129,7 @@ class Report:
         self.metrics = {}
         self.commit_rows = []
         self.texts = {}
+        self.paths = {}              # required file name -> path actually used (may be in a subfolder)
         self.commit_info = {}        # short hash -> commit dict
         self.starter_hashes = set()
         self.oral = []               # suggested discussion lines
@@ -334,18 +337,41 @@ def sel_tokens(sel):
 # ─────────────────────────────────────────────────────────────────────────────
 # Checks
 # ─────────────────────────────────────────────────────────────────────────────
+def locate(tracked, name):
+    """The file itself in the repo root, else the shallowest file with that name in a subfolder (any case)."""
+    if name in tracked:
+        return name
+    cands = [t for t in tracked if posixpath.basename(t).lower() == name.lower()]
+    return min(cands, key=lambda t: (t.count("/"), t.lower())) if cands else None
+
+
+def resolve(base, ref):
+    """Path of a local reference, relative to the file (base) that contains it."""
+    return posixpath.normpath(posixpath.join(posixpath.dirname(base), normalize_local(ref)))
+
+
 def check_files(rep, repo, tracked):
-    names = set(tracked)
-    missing = [f for f in REQUIRED_FILES if f not in names]
-    for f in missing:
-        rep.add("Content" if f == "JOURNAL.md" else "Implementation", "FAIL", "%s is missing" % f)
-    if "index.html" in missing:
-        rep.add("Submission", "FAIL", "index.html is missing - nothing to run")
+    missing, moved = [], []
+    for f in REQUIRED_FILES:
+        p = rep.paths.get(f)
+        crit = "Content" if f == "JOURNAL.md" else "Implementation"
+        if p is None:
+            missing.append(f)
+            rep.add(crit, "FAIL", "%s is missing" % f)
+        elif p != f:
+            moved.append(p)
+            rep.add(crit, "WARN", "%s is not in the repo root - checking %s instead" % (f, p))
+    idx = rep.paths.get("index.html")
+    if idx is None:
+        rep.add("Submission", "FAIL", "no index.html anywhere - nothing to run")
+    elif idx != "index.html":
+        rep.add("Submission", "WARN", "no index.html in the repo root - the site starts at %s (check that it opens)" % idx)
     rep.metrics["files_missing"] = ";".join(missing)
-    for f in CODE_FILES & names:
-        text = read(repo, f) or ""
-        if len([l for l in text.splitlines() if l.strip()]) < 3:
-            rep.add("Implementation", "FAIL", "%s is (nearly) empty - starter file untouched?" % f)
+    rep.metrics["files_moved"] = ";".join(moved)
+    for f in sorted(CODE_FILES):
+        p = rep.paths.get(f)
+        if p and len([l for l in (rep.texts.get(f) or "").splitlines() if l.strip()]) < 3:
+            rep.add("Implementation", "FAIL", "%s is (nearly) empty - starter file untouched?" % p)
     junk = [t for t in tracked if re.search(r"(^|/)(\.DS_Store|Thumbs\.db|node_modules/|\.vscode/|\.idea/|__pycache__/)", t)]
     if junk:
         rep.add("Implementation", "WARN", "junk files committed (%d): %s - a .gitignore would help" % (len(junk), short(junk)))
@@ -423,26 +449,28 @@ def check_html(rep, page):
         rep.add("Content", "INFO", "%d words of visible text on the page" % page.words)
 
 
-def check_links(rep, page, tracked, extra_code):
+def check_links(rep, repo, page, tracked, extra_code):
     """Links between files, broken/absolute/case-mismatched references (Submission: 'works after a fresh clone')."""
     if page is None:
         return
     tracked_set = set(tracked)
     lower = {t.lower(): t for t in tracked}
-    css_links = [normalize_local(h) for h in page.stylesheets if not is_external(h)]
-    js_links = [normalize_local(s) for s, _, _ in page.scripts if not is_external(s)]
-    if "style.css" in tracked_set and "style.css" not in css_links:
-        rep.add("Implementation", "FAIL", "style.css exists but index.html does not link it")
-    if "script.js" in tracked_set and "script.js" not in js_links:
-        rep.add("Implementation", "FAIL", "script.js exists but index.html does not load it")
+    base = rep.paths["index.html"]
+    css_p, js_p = rep.paths.get("style.css"), rep.paths.get("script.js")
+    css_links = [resolve(base, h) for h in page.stylesheets if not is_external(h)]
+    js_links = [resolve(base, s) for s, _, _ in page.scripts if not is_external(s)]
+    if css_p and css_p not in css_links:
+        rep.add("Implementation", "FAIL", "%s exists but %s does not link it" % (css_p, base))
+    if js_p and js_p not in js_links:
+        rep.add("Implementation", "FAIL", "%s exists but %s does not load it" % (js_p, base))
     problems = []
     for tag, ref in page.refs:
-        issue = check_ref(ref, "index.html", tracked_set, lower)
+        issue = check_ref(ref, base, tracked_set, lower)
         if issue:
             problems.append(issue)
     css_text = rep.texts.get("style.css") or ""
     for ref in re.findall(r"url\(\s*['\"]?([^'\")]+)", css_text):
-        issue = check_ref(ref, "style.css", tracked_set, lower)
+        issue = check_ref(ref, css_p, tracked_set, lower)
         if issue:
             problems.append(issue)
     hard = [p for p in problems if p[0] != "root-absolute"]
@@ -462,7 +490,11 @@ def check_links(rep, page, tracked, extra_code):
     ext = sorted(hosts)
     if ext:
         rep.add("Implementation", "INFO", "external resources from: %s (libraries? hotlinked images?)" % short(ext, 5))
-    referenced = {normalize_local(r) for _, r in page.refs if not is_external(r)}
+    referenced = {resolve(base, r) for _, r in page.refs if not is_external(r)}
+    for other in [t for t in tracked if t.lower().endswith((".html", ".htm")) and t != base]:
+        sub = Page()                                    # multi-page sites: links from the other pages count too
+        sub.feed(read(repo, other) or "")
+        referenced |= {resolve(other, r) for _, r in sub.refs if not is_external(r)}
     for f in extra_code:
         if f in referenced:
             rep.add("Implementation", "INFO", "extra linked file: %s" % f)
@@ -597,12 +629,13 @@ def check_js(rep, repo, js_text, page):
             rep.add("Implementation", "WARN", "script.js looks for elements not in index.html (fine only if created by "
                     "the script): %s" % short(sorted(set(miss))))
         for src, in_head, deferred in page.scripts:
-            if normalize_local(src) == "script.js" and in_head and not deferred \
+            if resolve(rep.paths["index.html"], src) == rep.paths.get("script.js") and in_head and not deferred \
                     and "DOMContentLoaded" not in code and re.search(r"getElementById|querySelector", code):
                 rep.add("Implementation", "WARN", "script.js loads in <head> without defer and queries the DOM at "
                         "top level - elements may not exist yet")
-    if shutil.which("node") and os.path.exists(os.path.join(repo, "script.js")):
-        r = subprocess.run(["node", "--check", os.path.join(repo, "script.js")], stdout=subprocess.PIPE,
+    js_path = os.path.join(repo, rep.paths.get("script.js") or "script.js")
+    if shutil.which("node") and os.path.exists(js_path):
+        r = subprocess.run(["node", "--check", js_path], stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, universal_newlines=True)
         if r.returncode != 0:
             msg = [re.sub(r"^.*?script\.js", "script.js", l).strip() for l in r.stderr.splitlines()
@@ -710,9 +743,12 @@ def plan_file_names(tracked):
 def check_git(rep, repo, tracked, args):
     commits = load_commits(repo)
     starter_re = re.compile(args.ignore_authors, re.I)
+    # The root commit is the Classroom template copy ("Initial commit"), even when it carries the student's name.
+    roots = {h[:7] for h in git(repo, "rev-list", "--max-parents=0", "HEAD").split()}
 
     def is_starter(c):
-        return bool(starter_re.search(c["author"] + " " + c["email"])) or bool(args.start and c["adate"] < args.start)
+        return (c["hash"] in roots or bool(starter_re.search(c["author"] + " " + c["email"]))
+                or bool(args.start and c["adate"] < args.start))
 
     stud = [c for c in commits if not is_starter(c)]
     now = dt.datetime.now(dt.timezone.utc)
@@ -782,6 +818,7 @@ def check_git(rep, repo, tracked, args):
             rep.add("Submission", "OK", "last commit %s is before the deadline" % fmt(stud[-1]["adate"]))
 
     # ── Planning ──
+    code_paths = {p for f, p in rep.paths.items() if f in CODE_FILES and p}
     plans = plan_file_names(tracked)
     plan_c, code_before, cum, code_c, plan_touches = None, 0, 0, None, []
     for c in stud:
@@ -790,7 +827,7 @@ def check_git(rep, repo, tracked, args):
             plan_touches.append(c)
             if plan_c is None:
                 plan_c, code_before = c, cum
-        cum += sum(a for f, a, _ in c["files"] if f in CODE_FILES)
+        cum += sum(a for f, a, _ in c["files"] if f in code_paths)
         if code_c is None and cum >= CODE_START_LINES:
             code_c = c
     rep.metrics["plan_before_code"] = ""
@@ -815,7 +852,8 @@ def check_git(rep, repo, tracked, args):
         rep.add("Planning", "INFO", "README.md mentions: %s" % (", ".join(hits) or "none of brainstorm/core/extension/challenge/week/retrospective"))
     if any(p.lower().endswith(".pdf") for p in plans):
         rep.add("Planning", "INFO", "a PDF is present - content (3 ideas, Part C) must be read by hand")
-    return [c for c in stud if "JOURNAL.md" in [f for f, _, _ in c["files"]]]
+    journal = rep.paths.get("JOURNAL.md")
+    return [c for c in stud if journal in [f for f, _, _ in c["files"]]]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -842,7 +880,8 @@ CSS_RULES = [
     ("responsive", re.compile(r"@media|@supports"), 4),
     ("flex", re.compile(r"display\s*:\s*(inline-)?(flex|grid)|grid-template|justify-content|align-items|flex-(direction|wrap|grow)|\bgap\b"), 3),
     ("position", re.compile(r"position\s*:\s*(absolute|fixed|sticky|relative)|z-index|float\s*:"), 3),
-    ("motion", re.compile(r"transition|animation|transform|@keyframes"), 3),
+    ("motion", re.compile(r"transition|animation|@keyframes"), 3),
+    ("transform", re.compile(r"(?<![\w-])transform\s*:|translate[XYZ3d]*\(|rotate\(|scale[XY]?\("), 2),
     ("calc", re.compile(r"calc\(|var\(|clamp\(|--[\w-]+\s*:"), 3),
     ("selector", re.compile(r":(hover|focus|active|nth-[\w-]+|not|first-child|last-child)\b|::(before|after)"), 2),
     ("specificity", re.compile(r"!important"), 2),
@@ -874,6 +913,8 @@ ASK = {  # category -> (explain, what-if)
                  "What changes if the parent has no position, or on a narrow screen?"),
     "motion": ("What triggers this, and what exactly is animated?",
                "How would you make it slower or run in the other direction?"),
+    "transform": ("What does this transform do to the element? Does it move its neighbors too?",
+                  "What happens if you change the values or remove the line?"),
     "calc": ("What does this evaluate to? Where is the value defined?",
              "What changes if you edit the value in one place?"),
     "selector": ("Which elements does this selector match, exactly?",
@@ -906,9 +947,9 @@ def blame_map(repo, fname):
 
 def pick_oral(repo, rep):
     cands, fallback = [], []
-    for fname, kind in (("script.js", "js"), ("style.css", "css"), ("index.html", "html")):
-        text = rep.texts.get(fname)
-        if not text:
+    for role, kind in (("script.js", "js"), ("style.css", "css"), ("index.html", "html")):
+        text, fname = rep.texts.get(role), rep.paths.get(role)
+        if not text or not fname:
             continue
         blame = blame_map(repo, fname)
         ctx = ""
@@ -943,7 +984,7 @@ def pick_oral(repo, rep):
                 if info["added"] >= DUMP_LINES:
                     score += 2
                     origin += " - dump commit"
-            item = {"file": fname, "line": i, "lang": kind, "display": display, "cat": cat, "origin": origin,
+            item = {"file": fname, "role": role, "line": i, "lang": kind, "display": display, "cat": cat, "origin": origin,
                     "score": score, "text": s}
             (cands if score >= 2 else fallback).append(item)
     cands.sort(key=lambda c: (-c["score"], -len(c["text"]), c["line"]))
@@ -955,11 +996,11 @@ def pick_oral(repo, rep):
 
     for f in ("script.js", "style.css"):                 # one JS and one CSS line if possible
         for c in cands:
-            if c["file"] == f:
+            if c["role"] == f:
                 take(c)
                 break
-    if not any(c["file"] == "style.css" for c in chosen):     # plain CSS: take the most substantial line
-        plain = sorted([c for c in fallback if c["file"] == "style.css"], key=lambda c: (-c["score"], -len(c["text"])))
+    if not any(c["role"] == "style.css" for c in chosen):     # plain CSS: take the most substantial line
+        plain = sorted([c for c in fallback if c["role"] == "style.css"], key=lambda c: (-c["score"], -len(c["text"])))
         if plain:
             take(plain[0])
 
@@ -973,7 +1014,7 @@ def pick_oral(repo, rep):
         for c in cands:
             if len(chosen) < 3 and not (strict and near(c)):
                 take(c)
-    fallback.sort(key=lambda c: (c["file"] != "script.js", -len(c["text"])))
+    fallback.sort(key=lambda c: (c["role"] != "script.js", -len(c["text"])))
     for c in fallback:                                   # nothing stood out: longest lines
         if len(chosen) < 3 and len(c["text"]) >= 15:
             take(c)
@@ -986,17 +1027,19 @@ def analyze_repo(path, args):
     name = os.path.basename(path.rstrip("/"))
     rep = Report(name)
     tracked = [t for t in git(path, "ls-files").splitlines() if t]
-    for f in REQUIRED_FILES + ["README.md"]:
-        rep.texts[f] = read(path, f)
+    rep.paths = {f: locate(tracked, f) for f in REQUIRED_FILES + ["README.md"]}
+    for f, p in rep.paths.items():
+        rep.texts[f] = read(path, p) if p else None
     check_files(rep, path, tracked)
     page = None
     if rep.texts["index.html"]:
         page = Page()
         page.feed(rep.texts["index.html"])
         page.finish()
-    extra = sorted(t for t in tracked if os.path.splitext(t)[1].lower() in (".html", ".css", ".js") and t not in CODE_FILES)
+    code_paths = {p for f, p in rep.paths.items() if f in CODE_FILES and p}
+    extra = sorted(t for t in tracked if os.path.splitext(t)[1].lower() in (".html", ".css", ".js") and t not in code_paths)
     check_html(rep, page)
-    check_links(rep, page, tracked, extra)
+    check_links(rep, path, page, tracked, extra)
     check_css(rep, rep.texts["style.css"], page, rep.texts["script.js"])
     check_js(rep, path, rep.texts["script.js"], page)
     journal_commits = check_git(rep, path, tracked, args)
@@ -1032,7 +1075,7 @@ def similarity(reports):
     return sorted(out, key=lambda r: -r[3])
 
 
-COLUMNS = ["repo", "student", "files_missing", "commits", "active_days", "span_days", "lines_added", "lines_deleted",
+COLUMNS = ["repo", "student", "files_missing", "files_moved", "commits", "active_days", "span_days", "lines_added", "lines_deleted",
            "max_commit_added", "dump_commits", "generic_msgs", "late_commits", "plan_before_code", "html_tags",
            "css_props", "css_dupes", "css_unused", "interactions", "inline_styles", "embedded", "broken_refs",
            "journal_tags", "journal_ok", "similar_to"] + CRITERIA + ["FAIL", "WARN"]
@@ -1193,6 +1236,19 @@ class Pdf:
             self.pages[-1].append(b"0.85 G 0.3 w %.2f %.2f m %.2f %.2f l S" % (MARGIN, self.y, MARGIN + sum(widths), self.y))
         self.y -= 4
 
+    def rect(self, x, y, w, h, fill=None, stroke=(0.6, 0.6, 0.6), lw=0.5):
+        if fill:
+            self.pages[-1].append(b"%.3f %.3f %.3f rg %.2f %.2f %.2f %.2f re f" % (tuple(fill) + (x, y, w, h)))
+        if stroke:
+            self.pages[-1].append(b"%.3f %.3f %.3f RG %.2f w %.2f %.2f %.2f %.2f re S" % (tuple(stroke) + (lw, x, y, w, h)))
+
+    def hline(self, x1, x2, y, gray=0.75, lw=0.4):
+        self.pages[-1].append(b"%.2f G %.2f w %.2f %.2f m %.2f %.2f l S" % (gray, lw, x1, y, x2, y))
+
+    def center(self, x, w, y, s, font, size, color=BLACK):
+        tw = self.width(s, size, font == "F2", font == "F3")
+        self.put(x + (w - tw) / 2, y, s, font, size, color)
+
     def save(self, path):
         n = len(self.pages)
         for i in range(n):
@@ -1293,6 +1349,55 @@ def render_pdf(path, reports, sims, args):
     pdf.save(path)
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Oral defense sheets - one A4 page per student, to print and fill in by hand
+# ─────────────────────────────────────────────────────────────────────────────
+def student_name(repo):
+    return repo[len(REPO_PREFIX):] if repo.startswith(REPO_PREFIX) else repo
+
+
+def mono_fit(s, w, size):
+    n = max(4, int(w / (0.6 * size)))
+    return s if len(s) <= n else s[:n - 3] + "..."
+
+
+def oral_sheet(pdf, r):
+    """Name, the suggested code lines, blank space for notes, and one row of level checkboxes."""
+    L, W = MARGIN, CONTENT_W
+    # ── name ──
+    pdf.y = PAGE_H - MARGIN - 14
+    pdf.put(L, pdf.y, "Oral Defense: " + student_name(r.name), "F2", 16)
+    pdf.put(L + W - pdf.width(r.name, 7.5), pdf.y, r.name, "F1", 7.5, GRAY)
+    pdf.y -= 7
+    pdf.hline(L, L + W, pdf.y, gray=0.3, lw=0.8)
+    pdf.y -= 8
+    # ── code lines ──
+    for o in r.oral:
+        h = 12 * len(o["display"]) + 8
+        pdf.y -= 16
+        pdf.put(L, pdf.y + 3, "%s, line %d" % (o["file"], o["line"]), "F1", 8, GRAY)
+        pdf.rect(L, pdf.y - h, W, h, fill=(0.94, 0.94, 0.94), stroke=None)
+        for dl in o["display"]:
+            pdf.y -= 12
+            pdf.put(L + 8, pdf.y + 1, mono_fit(dl, W - 16, 9.5), "F3", 9.5)
+        pdf.y -= 8
+    # ── checkboxes (the space above them stays blank for notes) ──
+    y, box, x = MARGIN + 4, 11, L
+    for lvl in ("++", "+", "+/-", "-", "--"):
+        pdf.rect(x, y - 2, box, box, stroke=(0.2, 0.2, 0.2), lw=0.7)
+        pdf.put(x + box + 6, y, lvl, "F2", 11)
+        x += box + 6 + pdf.width(lvl, 11, True) + 34
+
+
+def render_sheets(path, reports):
+    pdf = Pdf("Oral defense sheets")
+    for i, r in enumerate(reports):
+        if i:
+            pdf.new_page()
+        oral_sheet(pdf, r)
+    pdf.save(path)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Collect rubric evidence from cloned student repos.")
     ap.add_argument("root", help="directory containing the cloned repos (one sub-directory each)")
@@ -1301,12 +1406,12 @@ def main():
     ap.add_argument("--start", help="project start, e.g. 2026-11-23; earlier commits count as starter code")
     ap.add_argument("--ignore-authors", default=r"classroom|\[bot\]", help="regex for starter/bot authors (default: %(default)s)")
     ap.add_argument("--delimiter", default=",", help="CSV delimiter; use ';' for German-locale Excel")
-    ap.add_argument("--no-pdf", action="store_true", help="skip the combined all-reports.pdf")
+    ap.add_argument("--no-pdf", action="store_true", help="skip all-reports.pdf and oral-defense-sheets.pdf")
     args = ap.parse_args()
     args.deadline, args.start = parse_local(args.deadline), parse_local(args.start)
 
-    repos = sorted(os.path.join(args.root, d) for d in os.listdir(args.root)
-                   if os.path.isdir(os.path.join(args.root, d, ".git")))
+    repos = sorted((os.path.join(args.root, d) for d in os.listdir(args.root)
+                    if os.path.isdir(os.path.join(args.root, d, ".git"))), key=lambda p: os.path.basename(p).lower())
     if not repos:
         sys.exit("No git repositories found in %s" % args.root)
     out = args.out or "grading-report_%s" % os.path.basename(os.path.abspath(args.root))
@@ -1344,13 +1449,14 @@ def main():
         write_report(os.path.join(out, r.name + ".md"), r)
     if not args.no_pdf:
         render_pdf(os.path.join(out, "all-reports.pdf"), reports, sims, args)
+        render_sheets(os.path.join(out, "oral-defense-sheets.pdf"), reports)
 
     print("\n%-34s %7s %5s %5s   %s" % ("repo", "commits", "FAIL", "WARN", " ".join(c[:4] for c in CRITERIA)))
     for r in reports:
         print("%-34s %7s %5d %5d   %s" % (r.name[:34], r.metrics.get("commits", 0), r.count("FAIL"), r.count("WARN"),
                                          " ".join("%-4s" % r.status(c) for c in CRITERIA)))
     print("\nWrote %d reports, summary.csv, similarity.csv%s to %s/" %
-          (len(reports), "" if args.no_pdf else " and all-reports.pdf", out))
+          (len(reports), "" if args.no_pdf else ", all-reports.pdf and oral-defense-sheets.pdf", out))
 
 
 if __name__ == "__main__":
