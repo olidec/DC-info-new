@@ -1,17 +1,13 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Lesson 9 — How Did This Page Get Here? (Unit 2 cold open)
+// Lesson 9 — Data and Binary Numbers
+// Session 1 of the Computer Basics unit (before the encoding/binary/gates test)
 // ─────────────────────────────────────────────────────────────────────────────
 
 #let course          = "Computer Science"
 #let level           = "Gymnasium Muttenz"
 #let term            = "2026-27"
-#let lesson-title    = "How Did This Page Get Here?"
-#let lesson-subtitle = "A first look at the journey of a webpage"
-
-// Website used for all demonstrations in this lesson.
-// Check before class that it loads and that `nslookup` returns an address.
-#let demo-url    = "https://www.gym-muttenz.ch"
-#let demo-domain = "www.gym-muttenz.ch"
+#let lesson-title    = "Data and Binary Numbers"
+#let lesson-subtitle = "Bits, bytes, and counting in base 2"
 
 // ── Page setup ────────────────────────────────────────────────────────────────
 #set page(
@@ -66,42 +62,38 @@
 // ── Import shared styles and components ───────────────────────────────────────
 #import "../cs-style.typ": *
 
-// ── Local helpers ─────────────────────────────────────────────────────────────
-#let tick = box(width: 0.9em, height: 0.9em, stroke: 0.8pt + muted, radius: 1pt)
+// ── Local components ──────────────────────────────────────────────────────────
 
-// ── Images ────────────────────────────────────────────────────────────────────
-// Fill in `file` with a path relative to the project root (e.g.
-// "/images/network-tab.png", compiled with --root .) and `credit` with the
-// attribution required by the image license (none for your own screenshots).
-// While `file` is none, a placeholder box is shown instead.
-#let lesson-images = (
-  server-room:     (file: "images/server-room.jpg", credit: "Eclipse55, CC BY-SA 4.0, via Wikimedia Commons"),
-  network-tab:     (file: "images/network-tab.png", credit: none),
-  network-headers: (file: "images/network-headers.png", credit: none),
-  nslookup-output: (file: "images/nslookup.png", credit: none),
-)
-
-#let image-slot(key, caption, width: 100%, height: 4cm) = {
-  let entry = lesson-images.at(key)
-  let picture = if entry.file == none {
-    block(
-      width: width, height: height,
-      stroke: (paint: muted, thickness: 0.8pt, dash: "dashed"), radius: 3pt,
-      align(center + horizon, text(size: 8pt, fill: muted)[
-        Image: #caption \ (#raw(key))
-      ]),
-    )
-  } else {
-    // Fit the image inside the width × height box, keeping its proportions.
-    image(entry.file, width: width, height: height, fit: "contain")
-  }
-  figure(
-    picture,
-    caption: if entry.credit == none { caption } else {
-      [#caption #text(size: 7pt, fill: muted)[(#entry.credit)]]
-    },
+// "Check yourself" box — short self-test; answers are at the end of the notes
+#let check-counter = counter("check")
+#let check(body) = {
+  check-counter.step()
+  block(
+    width: 100%,
+    breakable: false,
+    stroke: (left: 1.5pt + accent),
+    inset: (left: 12pt, right: 0pt, top: 6pt, bottom: 6pt),
+    [
+      #text(size: 10pt, weight: "bold", fill: accent)[
+        Check yourself #context check-counter.display()
+      ]
+      #v(0.2em)
+      #body
+    ],
   )
+  v(0.6em)
 }
+
+// Standard table look (matches the other lesson notes)
+#let stdtable(columns, header, ..cells) = table(
+  columns: columns,
+  stroke: none,
+  fill: (_, row) => if row == 0 { primary } else if calc.odd(row) { light } else { white },
+  inset: 8pt,
+  align: center,
+  table.header(..header.map(h => text(size: 9pt, weight: "bold", fill: white, h))),
+  ..cells,
+)
 
 // ── Title block ───────────────────────────────────────────────────────────────
 #{
@@ -122,279 +114,375 @@
 #v(0.5em)
 
 #goals(
-  [Explain the difference between opening a file on your laptop and
-   loading a page over the internet.],
-  [Describe, in your own words, what you think happens when you load
-   a webpage.],
-  [Use the *Network* tab of the developer tools to see which files a
-   page is made of.],
-  [Name the big questions this unit will answer.],
+  [Explain the difference between data and information.],
+  [Explain why computers use binary.],
+  [Define bit and byte and calculate how many values $n$ bits can store.],
+  [Convert numbers from binary to decimal and from decimal to binary.],
+  [Write numbers in a fixed number of bits and recognize when a number does not fit.],
 )
 
-= Two Pages, Two Journeys #h(1fr) #tier-core
+= From Your Web Page to Bits #h(1fr) #tier-core
 
-You have spent the last few weeks building a webpage. Today we ask a
-question that sounds simple: *how does a page get onto your screen?*
-We start with an experiment.
+A few weeks ago you finished a web page. When someone opens it, the
+browser shows text, colors, and images. But nothing travels through the
+cables as letters or colors. Everything your page consists of is stored
+on a disk, sent over the network, and processed by the computer as long
+rows of *zeros and ones*.
 
-#steps(
-  [Open your project folder and double-click `index.html`. Your page
-   opens in the browser.],
-  [Open a new tab and go to #link(demo-url)[#raw(demo-domain)].],
-  [Look closely at the address bar in both tabs. Copy the first few
-   characters of each address into the table below.],
-  [Switch off Wi-Fi on your laptop. Reload both tabs. What happens?],
-  [Switch Wi-Fi back on.],
+In the next weeks we will answer one question step by step:
+
+#align(center)[
+  _How can a computer store text, numbers, colors, and pictures using
+  only 0 and 1?_
+]
+
+#note(
+  "Your guess",
+  [Before we start: write down in two or three sentences what you think
+   happens between typing the address of your page and seeing it in the
+   browser. Keep this. We will come back to it at the end of the unit.
+   #answer-space(lines: 4)],
 )
 
-#table(
-  columns: (1fr, 9.5em, 9.5em),
-  rows: (auto, 2.4em, 2.4em, 3.2em),
-  stroke: 0.5pt + muted,
-  inset: 8pt,
-  table.header([], [*Your project page*], [*School website*]),
-  [Beginning of the address],                  [], [],
-  [Loads without Wi-Fi? (yes / no)],           [], [],
-  [Where is the file stored, do you think?],   [], [],
+= Data and Information #h(1fr) #tier-core
+
+Two words are often used as if they meant the same thing. In computer
+science we keep them apart:
+
+- *Data* are the symbols that are stored or sent, for example the
+  digits `01000001` or the numbers `21, 22, 35, 21`.
+- *Information* is the meaning that someone gets out of the data when
+  they *interpret* it.
+
+A computer only ever handles data. The meaning comes from the rules we
+use to read it. The same eight bits can mean completely different things:
+
+#align(center,
+  stdtable(
+    (auto, auto),
+    ([Interpreted as …], [The bits `01000001` mean …]),
+    [a whole number], [65],
+    [a letter (ASCII table)], [the letter A],
+    [the brightness of a pixel (0 = black, 255 = white)], [a dark gray],
+  )
+)
+
+#infobox(
+  "Key idea",
+  [Bits have no meaning on their own. To turn data into information,
+   you need to know *how* the data was encoded. This is the central idea
+   of the whole unit: every kind of data (numbers, text, colors, images)
+   is just a different set of rules for reading bits.],
+)
+
+#check[
+  A weather station stores the numbers `0, 2, 5, 3, 1`.
+  + What is the data here?
+  + Write down one piece of information someone could get from it, if
+    they know that the numbers are rainfall in millimeters per day.
+  + What could go wrong if someone does not know the unit?
+]
+
+= Why Binary? #h(1fr) #tier-core
+
+Inside a computer, data is stored and processed electronically. Modern
+processors contain billions of tiny switches called *transistors*. Each
+one is either *on* or *off*: current flows or it does not, the voltage
+is high or it is low.
+
+Two states are very easy to tell apart, even when the signal is a bit
+weak or noisy. "Clearly high" and "clearly low" are hard to confuse.
+If a wire had to carry ten different voltage levels (one for each
+decimal digit), a small disturbance could turn a 6 into a 7. With only
+two levels, the computer works *reliably*.
+
+So we write the two states as *1* and *0*. A number system that uses
+only these two digits is called the *binary* system (base 2).
+
+#infobox(
+  "Analogy: a row of light switches",
+  [Imagine a row of light switches, each either on (1) or off (0).
+   One switch has 2 possible settings. Two switches have
+   $2 dot 2 = 4$: off–off, off–on, on–off, on–on. Every additional
+   switch *doubles* the number of possible settings.],
+)
+
+= Bits and Bytes #h(1fr) #tier-core
+
+A single 0 or 1 is called a *bit* (short for "binary digit").
+Bits are grouped into *bytes*:
+
+#align(center)[*1 byte = 8 bits*]
+
+With $n$ bits you can form $2^n$ different patterns:
+
+#align(center,
+  stdtable(
+    (auto, auto, auto, auto, auto, auto, auto, auto, auto),
+    ([Bits $n$], [1], [2], [3], [4], [5], [6], [7], [8]),
+    [Patterns $2^n$], [2], [4], [8], [16], [32], [64], [128], [256],
+  )
+)
+
+#v(0.3em)
+
+So one byte can store $2^8 = 256$ different values, for example the
+numbers 0 to 255.
+
+== Larger units
+
+#align(center,
+  stdtable(
+    (auto, auto, auto),
+    ([Unit], [Symbol], [Size]),
+    [kilobyte], [kB], [1~000 bytes],
+    [megabyte], [MB], [1~000 kB = 1~000~000 bytes],
+    [gigabyte], [GB], [1~000 MB],
+    [terabyte], [TB], [1~000 GB],
+  )
 )
 
 #warnbox(
-  "Saved copies",
-  [Your browser keeps copies of pages you visited recently. If the school
-   website still appears without Wi-Fi, click a link on it that you have
-   not opened before.],
+  "⚠ 1000 or 1024?",
+  [Because computers count in powers of 2, you will also see
+   1 KiB (kibibyte) = $2^10$ = 1~024 bytes, 1 MiB = $2^20$ bytes, and
+   so on. Operating systems and storage devices do not always agree on
+   which one they mean, which is why a "500 GB" disk can show up as
+   "465 GB" on your laptop. In this course we say which one we mean.],
 )
 
-One of the two pages needs the internet and the other one does not. So
-the second page must come from somewhere else — and travel to you. This
-unit is about that journey, and about the machines at both ends of it.
-
-#image-slot("server-room", [Where many websites live: a room full of servers.],
-  height: 4.5cm)
-
-= Your Prediction #h(1fr) #tier-core
-
-#exercise(title: "What happens when you press Enter?")[
-  Write down, in your own words, what you think happens between the
-  moment you press Enter and the moment the school website appears on
-  your screen. Write at least five sentences. Use any words you know,
-  even if you are not sure exactly what they mean.
-
-  #answer-space(lines: 8)
+#check[
+  + How many different patterns can you form with 5 bits?
+  + How many bits are in 3 bytes?
+  + A file has a size of 4 kB. About how many bytes is that?
 ]
+
+= Binary Numbers #h(1fr) #tier-core
+
+== Place value: what you already know
+
+In the decimal system, each position is worth ten times as much as the
+position to its right:
+
+$ 2026 = 2 dot 1000 + 0 dot 100 + 2 dot 10 + 6 dot 1 $
+
+The positions are worth $10^0 = 1$, $10^1 = 10$, $10^2 = 100$,
+$10^3 = 1000$, and so on.
+
+The binary system works exactly the same way, but each position is
+worth *two* times as much as the position to its right:
+
+#align(center,
+  stdtable(
+    (auto,) * 9,
+    ([Position value], [$2^7$], [$2^6$], [$2^5$], [$2^4$], [$2^3$], [$2^2$], [$2^1$], [$2^0$]),
+    [], [128], [64], [32], [16], [8], [4], [2], [1],
+  )
+)
+
+#v(0.3em)
 
 #infobox(
-  "There are no wrong answers today",
-  [You are not expected to know this yet. Write what you *think*. Keep
-   this page: at the end of the unit you will read your prediction again
-   and correct it.],
+  "Learn these by heart",
+  [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024. These are the powers
+   of 2 from $2^0$ to $2^10$. You will need them all the time.],
 )
 
-= Building the Map Together #h(1fr) #tier-core
+To make clear which system a number is written in, we add the base as a
+small subscript: $101_2$ is a binary number, $101_(10)$ a decimal one.
 
-As a class, we will collect the steps on the board. Copy the class map
-into the boxes below. If we find more steps than there are boxes, add
-them in the margin.
+== Binary to decimal
 
-#{
-  let step-box(body) = block(
-    width: 85pt, height: 52pt,
-    fill: rgb("#F0F4F8"), stroke: 1pt + accent, radius: 3pt,
-    align(center + horizon, text(size: 9pt, weight: "bold", fill: primary, body)),
+Write the position values above the bits. Then add up the values of
+all positions where there is a *1*.
+
+*Example:* $10110_2$
+
+#align(center,
+  stdtable(
+    (auto,) * 6,
+    ([Position value], [16], [8], [4], [2], [1]),
+    [Bit], [1], [0], [1], [1], [0],
   )
-  let empty-box = block(
-    width: 85pt, height: 52pt,
-    stroke: (paint: accent, thickness: 1pt, dash: "dashed"), radius: 3pt,
-  )
-  let arrow(dir) = align(center + horizon, text(size: 14pt, fill: accent, dir))
-
-  align(center,
-    figure(
-      grid(
-        columns: (85pt, 18pt, 85pt, 18pt, 85pt, 18pt, 85pt),
-        row-gutter: 6pt,
-        // Row 1 — left to right
-        step-box[You press Enter], arrow(sym.arrow.r),
-        empty-box, arrow(sym.arrow.r),
-        empty-box, arrow(sym.arrow.r),
-        empty-box,
-        // Turn
-        [], [], [], [], [], [], arrow(sym.arrow.b),
-        // Row 2 — right to left
-        step-box[The page appears], arrow(sym.arrow.l),
-        empty-box, arrow(sym.arrow.l),
-        empty-box, arrow(sym.arrow.l),
-        empty-box,
-      ),
-      caption: [The journey of a webpage — class map. Read the second row
-        from right to left.],
-    )
-  )
-}
-
-These words will come up while we build the map. For each one, mark
-whether you have heard of it and whether you could explain it to a
-classmate.
-
-#{
-  let terms = (
-    "browser", "server", "URL", "request", "Wi-Fi", "router",
-    "packet", "IP address", "DNS",
-    "HTTP / HTTPS", "byte", "binary", "character encoding", "CPU",
-    "RAM", "SSD", "operating system", "cache",
-  )
-  let term-table(items) = table(
-    columns: (1fr, auto, auto),
-    stroke: none,
-    inset: (x: 6pt, y: 5pt),
-    fill: (_, row) => if row == 0 { light } else { none },
-    table.header(
-      text(size: 9pt, weight: "bold")[Term],
-      text(size: 9pt, weight: "bold")[Heard of it],
-      text(size: 9pt, weight: "bold")[Could explain it],
-    ),
-    ..items.map(t => ([#t], align(center, tick), align(center, tick))).flatten(),
-  )
-  grid(
-    columns: (1fr, 1fr),
-    column-gutter: 16pt,
-    term-table(terms.slice(0, 9)),
-    term-table(terms.slice(9)),
-  )
-}
-
-= Looking Under the Hood #h(1fr) #tier-core
-
-Your browser can show you every file it fetches. You may already have
-used the developer tools to read the output of `console.log`. Today we
-use a different tab: *Network*.
-
-#steps(
-  [Go to the tab with the school website.],
-  [Open the developer tools: `F12` or `Ctrl+Shift+I` on Windows,
-   `Cmd+Option+I` on a Mac.],
-  [Click the *Network* tab.],
-  [Reload the page and watch the list fill up.],
 )
 
-#image-slot("network-tab", [The Network tab after reloading the page.],
-  height: 5.5cm)
+#v(0.3em)
 
-#hint[Using Safari? First go to *Safari → Settings → Advanced* and turn on
-  *Show features for web developers* (in older versions: *Show Develop menu
-  in menu bar*). The Network tab looks slightly different in every browser,
-  but the information is the same.]
+$ 10110_2 = 16 + 4 + 2 = 22 $
 
-#image-slot("network-headers",
-  [The *Headers* of a single request. Click a line in the list to see them.],
-  height: 5cm)
+*Example:* $01101001_2$
 
-#v(0.5em)
+$ 01101001_2 = 64 + 32 + 8 + 1 = 105 $
 
-#exercise(title: "What did the browser fetch?")[
-  + How many requests did the browser make? Look at the bar at the
-    bottom of the Network tab. #blank(width: 5em)
-  + Look at the very first line in the list. What is its name, and what
-    type is it? Why do you think it comes first?
-    #answer-space(lines: 2)
-  + Find at least one image in the list. What is its file name?
-    #blank(width: 12em)
-  + Click the first line and open *Headers*. Find the *status code* and
-    write it down: #blank(width: 4em) \
-    Find the line *Remote Address* (Chrome, Edge) or *Address* (Firefox)
-    and copy it: #blank(width: 12em)
-  + Now open *Response*. What do you see? Does it look familiar?
-    #answer-space(lines: 2)
+#check[
+  Convert to decimal: #h(1em) $111_2$ #h(1em) $1001_2$ #h(1em)
+  $11010_2$ #h(1em) $10000001_2$
 ]
 
-#infobox(
-  "Remember these",
-  [The status code and the address you just found will come back later
-   in this unit. For now, notice that the page did not arrive as one
-   piece: the browser asked for many separate files.],
+== Decimal to binary — Method 1: subtract powers of 2
+
+Start with the largest power of 2 that fits into the number. Write a 1
+in that position and subtract. Then go down position by position: if
+the power fits into what is left, write 1 and subtract; if not, write 0.
+
+*Example:* 45
+
+#align(center,
+  stdtable(
+    (auto, auto, auto, auto),
+    ([Position value], [Fits into …?], [Bit], [Left over]),
+    [32], [45: yes], [1], [45 − 32 = 13],
+    [16], [13: no],  [0], [13],
+    [8],  [13: yes], [1], [13 − 8 = 5],
+    [4],  [5: yes],  [1], [5 − 4 = 1],
+    [2],  [1: no],   [0], [1],
+    [1],  [1: yes],  [1], [1 − 1 = 0],
+  )
 )
 
-= The Page Is Just Text #h(1fr) #tier-extension
+#v(0.3em)
 
-Right-click anywhere on the school website and choose *View Page Source*
-(`Ctrl+U` on Windows, `Cmd+Option+U` on a Mac). This is the HTML file the
-server sent you — the same kind of file you wrote for your project.
+Reading the bit column from top to bottom: $45 = 101101_2$.
 
-#exercise(title: "Reading someone else's HTML")[
-  + Find three HTML tags that you also used in your project.
-    #answer-space(lines: 1)
-  + Find one tag you have never seen before.
-    #blank(width: 10em)
-  + Find an `<img>` tag. Where does its `src` attribute point? Can you
-    find that file in the Network tab?
-    #answer-space(lines: 2)
-  + The page arrived as text. But a computer only stores 0s and 1s. How
-    could text be made of 0s and 1s? Write down your guess.
-    #answer-space(lines: 2)
-]
+== Decimal to binary — Method 2: divide by 2
 
-= Asking for the Address Yourself #h(1fr) #tier-challenge
+Divide the number by 2 and write down the remainder (0 or 1). Repeat
+with the result until you reach 0. The remainders, read from *bottom
+to top*, are the binary number.
 
-Websites have names like #raw(demo-domain), but the browser needs a
-number to find the server. You can ask for that number yourself. Open a
-terminal and type:
+*Example:* 45
 
-#raw("nslookup " + demo-domain, block: true, lang: "bash")
-
-The first two lines of the answer describe _who answered your question_.
-The address of the website comes after the line starting with `Name:`.
-
-#image-slot("nslookup-output", [Typical output of `nslookup`.],
-  width: 90%, height: 4.5cm)
-
-#exercise(title: "Comparing addresses")[
-  + Copy the address `nslookup` gives you.
-    #blank(width: 14em)
-  + Compare it with the address you found in the Network tab. Are they
-    the same?
-  + If they are not the same, or if `nslookup` gives you several
-    addresses: why might one website have more than one address?
-    #answer-space(lines: 3)
-]
-
-= The Questions Ahead #h(1fr) #tier-core
-
-Every box on the class map hides a question. Over the next lessons we
-will open them one by one.
-
-#table(
-  columns: (8em, 1fr),
-  stroke: none,
-  inset: 8pt,
-  fill: (_, row) => if row == 0 { primary } else if calc.odd(row) { light } else { white },
-  table.header(
-    text(size: 9pt, weight: "bold", fill: white)[Topic],
-    text(size: 9pt, weight: "bold", fill: white)[The question it answers],
-  ),
-  [Hardware], [What machines are involved, and what is inside them?],
-  [Software], [Which programs work together to show you a page?],
-  [Binary],   [How can a computer store anything using only 0 and 1?],
-  [Encoding], [How are letters, pictures, and sound turned into numbers?],
-  [Logic],    [How can a machine built from tiny switches calculate?],
-  [Networks], [How does a request find its way across the world and back?],
+#align(center,
+  stdtable(
+    (auto, auto, auto),
+    ([Division], [Result], [Remainder]),
+    [45 : 2], [22], [1],
+    [22 : 2], [11], [0],
+    [11 : 2], [5],  [1],
+    [5 : 2],  [2],  [1],
+    [2 : 2],  [1],  [0],
+    [1 : 2],  [0],  [1],
+  )
 )
 
-#exercise(title: "Your own question")[
-  Write down one question about today's experiments that you would like
-  this unit to answer.
+#v(0.3em)
 
-  #answer-space(lines: 2)
+Remainders from bottom to top: $45 = 101101_2$. Both methods give the
+same result, of course. Use the one you prefer.
+
+#warnbox(
+  "⚠ Check your result",
+  [The most common mistake with Method 2 is reading the remainders in
+   the wrong order. Always check by converting your answer back to
+   decimal: $101101_2 = 32 + 8 + 4 + 1 = 45$ #sym.checkmark],
+)
+
+#check[
+  Convert to binary: #h(1em) 12 #h(1em) 33 #h(1em) 70 #h(1em) 150
 ]
+
+= Fixed Width #h(1fr) #tier-core
+
+A computer does not store numbers with "as many bits as needed". It
+reserves a *fixed number of bits* for each number, for example 8 bits
+(one byte). Unused positions on the left are filled with *leading
+zeros*:
+
+$ 19 = 10011_2 = 00010011_2 #h(1em) "(8-bit)" $
+
+Leading zeros do not change the value, just as 0019 is still nineteen.
+
+With $n$ bits, the smallest number is 0 (all zeros) and the largest is
+$2^n - 1$ (all ones). For 8 bits this is $11111111_2 = 255$.
+
+#warnbox(
+  "⚠ It does not always fit",
+  [The number 300 needs 9 bits ($100101100_2$). It *cannot* be stored
+   in a single byte. What a computer does in this situation, and why
+   that can cause real bugs, is part of the next lesson.],
+)
+
+#check[
+  + What is the largest number you can store with 5 bits? Write it in
+    binary and in decimal.
+  + Write 21 as an 8-bit binary number.
+  + Can the number 70 be stored with 6 bits? Explain.
+]
+
+= Patterns in Binary #h(1fr) #tier-extension
+
+Counting in binary works just like counting in decimal: when a position
+is "full" (a 1 in binary, a 9 in decimal), it goes back to 0 and the
+next position to the left goes up by one.
+
+#align(center,
+  stdtable(
+    (auto,) * 8,
+    ([Decimal], [0], [1], [2], [3], [4], [5], [6]),
+    [Binary], [0000], [0001], [0010], [0011], [0100], [0101], [0110],
+  )
+)
+
+#v(0.3em)
+
+Look closely at your conversions and see whether you can explain these
+patterns:
+
+- Every *odd* number ends in 1, every *even* number ends in 0.
+- Adding a 0 at the right end *doubles* the number:
+  $101_2 = 5$, $1010_2 = 10$, $10100_2 = 20$.
+- A 1 followed by $n$ zeros is $2^n$. A row of $n$ ones is $2^n - 1$.
+
+= Counting on Your Fingers #h(1fr) #tier-challenge
+
+Each finger is one bit: finger up = 1, finger down = 0. Your thumb is
+worth 1, your index finger 2, your middle finger 4, and so on.
+
++ What is the largest number you can show with one hand? With two?
++ Show the number 19 on one hand. (Careful with the people next to you.)
++ Explain why Method 2 (dividing by 2) works. _Hint:_ What does the
+  remainder of a division by 2 tell you about the last bit?
 
 = Summary
 
-By the end of this lesson you should have:
+By the end of this lesson you should be able to:
 
 #checklist(
-  [Compared a page opened from your laptop with a page loaded over the
-   internet.],
-  [Written your prediction — keep this page for the end of the unit.],
-  [Copied the class map.],
-  [Used the Network tab to see the files a page is made of.],
-  [Written down one question of your own.],
+  [Explain the difference between data and information with an example.],
+  [Explain why computers use two states instead of ten.],
+  [State how many bits are in a byte and how many values $n$ bits can store.],
+  [Convert binary numbers to decimal.],
+  [Convert decimal numbers to binary with at least one method.],
+  [Write a number in 8-bit notation and say whether it fits.],
 )
+
+#pagebreak()
+
+= Check Your Answers
+
+*Check yourself 1*
++ The numbers `0, 2, 5, 3, 1`.
++ For example: "The third day was the wettest" or "In total it rained
+  11 mm." Many answers are possible.
++ Someone could read the numbers as centimeters or as temperatures and
+  draw completely wrong conclusions. Without the encoding rule, data
+  has no reliable meaning.
+
+*Check yourself 2*
++ $2^5 = 32$
++ $3 dot 8 = 24$ bits
++ About 4~000 bytes (or 4~096 bytes if 1 KiB = 1~024 bytes is meant).
+
+*Check yourself 3*
+#h(1em) $111_2 = 7$ #h(2em) $1001_2 = 9$ #h(2em) $11010_2 = 26$ #h(2em)
+$10000001_2 = 129$
+
+*Check yourself 4*
+#h(1em) $12 = 1100_2$ #h(2em) $33 = 100001_2$ #h(2em)
+$70 = 1000110_2$ #h(2em) $150 = 10010110_2$
+
+*Check yourself 5*
++ $11111_2 = 31$ (that is, $2^5 - 1$).
++ $21 = 00010101_2$
++ No. The largest 6-bit number is $2^6 - 1 = 63$, and $70 > 63$.
+  70 needs 7 bits ($1000110_2$).
